@@ -6,15 +6,12 @@ use DateTime;
 use DateTimeZone;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use function sprintf;
 
 class DateTimeFromStringTest extends TestCase
 {
-
     /**
      * @dataProvider dateTimeToCreateProvider
-     * @param string $expectedDateTime
-     * @param string $format
-     * @param string $dateTimeString
      */
     public function testShouldCreateDateTime(
         string $expectedDateTime,
@@ -23,9 +20,13 @@ class DateTimeFromStringTest extends TestCase
     ): void {
         $dateTime = DateTimeFromString::create($format, $dateTimeString);
 
-        $this->assertEquals($expectedDateTime, $dateTime->format(DateTime::ATOM));
+        self::assertEquals($expectedDateTime, $dateTime->format(DateTime::ATOM));
     }
 
+
+    /**
+     * @return mixed[]
+     */
     public function dateTimeToCreateProvider(): array
     {
         return [
@@ -34,12 +35,9 @@ class DateTimeFromStringTest extends TestCase
         ];
     }
 
+
     /**
      * @dataProvider dateTimeWithTimeZoneToCreateProvider
-     * @param string $expectedDateTime
-     * @param string $format
-     * @param string $dateTimeString
-     * @param DateTimeZone $timeZone
      */
     public function testShouldCreateDateTimeWithTimezone(
         string $expectedDateTime,
@@ -49,9 +47,13 @@ class DateTimeFromStringTest extends TestCase
     ): void {
         $dateTime = DateTimeFromString::createWithTimezone($format, $dateTimeString, $timeZone);
 
-        $this->assertEquals($expectedDateTime, $dateTime->format(DateTime::ATOM));
+        self::assertEquals($expectedDateTime, $dateTime->format(DateTime::ATOM));
     }
 
+
+    /**
+     * @return mixed[]
+     */
     public function dateTimeWithTimeZoneToCreateProvider(): array
     {
         return [
@@ -60,16 +62,15 @@ class DateTimeFromStringTest extends TestCase
         ];
     }
 
+
     /**
      * @dataProvider invalidDataProvider
-     * @param string $format
-     * @param string $dateTimeString
      */
     public function testShouldThrowExceptionWhenCantCreateDateTime(string $format, string $dateTimeString): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            \sprintf(
+            sprintf(
                 'Can\'t convert %s to datetime using format %s.',
                 $dateTimeString,
                 $format
@@ -79,10 +80,9 @@ class DateTimeFromStringTest extends TestCase
         DateTimeFromString::create($format, $dateTimeString);
     }
 
+
     /**
      * @dataProvider invalidDataProvider
-     * @param string $format
-     * @param string $dateTimeString
      */
     public function testShouldThrowExceptionWhenCantCreateDateTimeWithTimeZone(
         string $format,
@@ -90,7 +90,7 @@ class DateTimeFromStringTest extends TestCase
     ): void {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            \sprintf(
+            sprintf(
                 'Can\'t convert %s to datetime using format %s.',
                 $dateTimeString,
                 $format
@@ -100,6 +100,10 @@ class DateTimeFromStringTest extends TestCase
         DateTimeFromString::createWithTimezone($format, $dateTimeString, new DateTimeZone('Europe/Prague'));
     }
 
+
+    /**
+     * @return mixed[]
+     */
     public function invalidDataProvider(): array
     {
         return [
@@ -109,5 +113,4 @@ class DateTimeFromStringTest extends TestCase
             ['0000-00-00 00:00:00', 'Y-m-d H:i:s'],
         ];
     }
-
 }

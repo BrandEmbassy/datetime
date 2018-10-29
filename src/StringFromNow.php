@@ -6,7 +6,6 @@ use DateTimeZone;
 
 final class StringFromNow
 {
-
     /**
      * @var DateTimeImmutableFactory
      */
@@ -17,6 +16,7 @@ final class StringFromNow
      */
     private $dateTimeFormatter;
 
+
     public function __construct(
         DateTimeFormatter $dateTimeFormatter,
         DateTimeImmutableFactory $dateTimeImmutableFactory
@@ -25,11 +25,11 @@ final class StringFromNow
         $this->dateTimeFormatter = $dateTimeFormatter;
     }
 
+
     public function formatNowInTimezone(DateTimeZone $dateTimeZone, string $format): string
     {
         $now = $this->dateTimeImmutableFactory->getNow();
 
         return $this->dateTimeFormatter->formatInTimezone($now, $dateTimeZone, $format);
     }
-
 }

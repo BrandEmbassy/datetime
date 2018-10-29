@@ -6,10 +6,8 @@ use DateTimeImmutable;
 
 final class CurrentDateTimeImmutableFactory implements DateTimeImmutableFactory
 {
-
     public function getNow(): DateTimeImmutable
     {
         return new DateTimeImmutable();
     }
-
 }

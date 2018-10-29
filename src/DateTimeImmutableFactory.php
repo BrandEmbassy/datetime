@@ -6,7 +6,5 @@ use DateTimeImmutable;
 
 interface DateTimeImmutableFactory
 {
-
     public function getNow(): DateTimeImmutable;
-
 }

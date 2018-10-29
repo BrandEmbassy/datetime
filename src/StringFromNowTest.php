@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 
 class StringFromNowTest extends TestCase
 {
-
     public function testShouldReturnCorrectStringForTimezone(): void
     {
         $dateTimeZone = new DateTimeZone('Europe/Prague');
@@ -20,7 +19,6 @@ class StringFromNowTest extends TestCase
 
         $formattedDateTime = $stringFromNow->formatNowInTimezone($dateTimeZone, DateTime::ATOM);
 
-        $this->assertSame('2011-01-01T23:26:03+01:00', $formattedDateTime);
+        self::assertSame('2011-01-01T23:26:03+01:00', $formattedDateTime);
     }
-
 }

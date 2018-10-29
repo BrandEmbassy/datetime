@@ -7,19 +7,20 @@ use PHPUnit\Framework\TestCase;
 
 class DateTimeFromTimestampTest extends TestCase
 {
-
     /**
      * @dataProvider timestampProvider
-     * @param string $expectedDateTime
-     * @param int $timestamp
      */
     public function testShouldCreateDateTimeFromTimestamp(string $expectedDateTime, int $timestamp): void
     {
         $dateTime = DateTimeFromTimestamp::create($timestamp);
 
-        $this->assertSame($expectedDateTime, $dateTime->format(DateTime::ATOM));
+        self::assertSame($expectedDateTime, $dateTime->format(DateTime::ATOM));
     }
 
+
+    /**
+     * @return mixed[]
+     */
     public function timestampProvider(): array
     {
         return [
@@ -27,5 +28,4 @@ class DateTimeFromTimestampTest extends TestCase
             ['1970-01-01T00:00:00+00:00', 0],
         ];
     }
-
 }
