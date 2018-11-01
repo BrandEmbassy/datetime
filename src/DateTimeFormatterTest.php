@@ -39,6 +39,9 @@ class DateTimeFormatterTest extends TestCase
     }
 
 
+    /**
+     * @return mixed[]
+     */
     public function timestampDataProvider(): array
     {
         return [
@@ -52,6 +55,9 @@ class DateTimeFormatterTest extends TestCase
     }
 
 
+    /**
+     * @return mixed[]
+     */
     public function dateTimeImmutableDataProvider(): array
     {
         return [
