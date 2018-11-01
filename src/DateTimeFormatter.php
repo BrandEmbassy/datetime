@@ -7,7 +7,7 @@ use DateTimeZone;
 
 final class DateTimeFormatter
 {
-    public function formatInTimezone(
+    public static function formatInTimezone(
         DateTimeImmutable $dateTimeImmutable,
         DateTimeZone $dateTimeZone,
         string $format
@@ -18,7 +18,7 @@ final class DateTimeFormatter
     }
 
 
-    public function formatTimestampInTimezone(
+    public static function formatTimestampInTimezone(
         int $timestamp,
         DateTimeZone $dateTimeZone,
         string $format

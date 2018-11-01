@@ -102,7 +102,7 @@ class DateTimeFromStringTest extends TestCase
 
 
     /**
-     * @return mixed[]
+     * @return string[][]
      */
     public function invalidDataProvider(): array
     {
