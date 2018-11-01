@@ -1,0 +1,28 @@
+{
+    "name": "brandembassy/datetime",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "BrandEmbassy\\DateTime\\": "src"
+        }
+    },
+    "require": {
+        "php": "~7.2",
+        "beberlei/assert": "^3"
+    },
+    "require-dev": {
+        "brandembassy/coding-standard": "^4.0",
+        "phpstan/phpstan-beberlei-assert": "^0.10.0",
+        "phpunit/phpunit": "^7.4",
+        "roave/security-advisories": "dev-master"
+    },
+    "scripts": {
+        "phpcs": "vendor/bin/phpcs  --standard=BrandEmbassyCodingStandard src",
+        "phpcbf": "./vendor/bin/phpcbf  --standard=BrandEmbassyCodingStandard src",
+        "phpstan": "./vendor/bin/phpstan analyse -c phpstan.neon src",
+        "test": "./vendor/bin/phpunit src"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

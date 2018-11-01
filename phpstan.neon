@@ -1,0 +1,6 @@
+includes:
+	- vendor/phpstan/phpstan-beberlei-assert/extension.neon
+	- vendor/brandembassy/coding-standard/default-phpstan.neon
+
+parameters:
+    ignoreErrors:
