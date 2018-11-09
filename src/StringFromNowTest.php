@@ -15,7 +15,7 @@ class StringFromNowTest extends TestCase
         $dateTime = new DateTimeImmutable('2011-01-01 22:26:03');
 
         $dateTimeImmutableFactory = new FrozenDateTimeImmutableFactory($dateTime);
-        $stringFromNow = new StringFromNow(new DateTimeFormatter(), $dateTimeImmutableFactory);
+        $stringFromNow = new StringFromNow($dateTimeImmutableFactory);
 
         $formattedDateTime = $stringFromNow->formatNowInTimezone($dateTimeZone, DateTime::ATOM);
 

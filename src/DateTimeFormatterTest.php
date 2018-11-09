@@ -17,7 +17,7 @@ class DateTimeFormatterTest extends TestCase
         DateTimeZone $dateTimeZone,
         string $expectedOutput
     ): void {
-        $this->assertEquals(
+        self::assertEquals(
             $expectedOutput,
             DateTimeFormatter::formatTimestampInTimezone($timestamp, $dateTimeZone, DateTime::ATOM)
         );
@@ -32,7 +32,7 @@ class DateTimeFormatterTest extends TestCase
         DateTimeZone $dateTimeZone,
         string $expectedOutput
     ): void {
-        $this->assertEquals(
+        self::assertEquals(
             $expectedOutput,
             DateTimeFormatter::formatInTimezone($dateTimeImmutable, $dateTimeZone, DateTime::ATOM)
         );
