@@ -40,6 +40,12 @@ final class AmountOfTime
     }
 
 
+    public static function fromDays(int $days): self
+    {
+        return new self($days * TimeInSeconds::DAY * self::SECOND_IN_MILLISECOND);
+    }
+
+
     public function toMilliseconds(): int
     {
         return $this->milliseconds;
@@ -55,5 +61,11 @@ final class AmountOfTime
     public function toMinutes(): int
     {
         return (int)floor($this->toSeconds() / TimeInSeconds::MINUTE);
+    }
+
+
+    public function toDays(): int
+    {
+        return (int)floor($this->toSeconds() / TimeInSeconds::DAY);
     }
 }

@@ -12,13 +12,15 @@ final class AmountOfTimeTest extends TestCase
     public function testShouldConvertTimeFromMilliseconds(
         int $milliseconds,
         int $expectedSeconds,
-        int $expectedMinutes
+        int $expectedMinutes,
+        int $expectedDays
     ): void {
         $amountOfTime = AmountOfTime::fromMilliseconds($milliseconds);
 
         self::assertSame($milliseconds, $amountOfTime->toMilliseconds());
         self::assertSame($expectedSeconds, $amountOfTime->toSeconds());
         self::assertSame($expectedMinutes, $amountOfTime->toMinutes());
+        self::assertSame($expectedDays, $amountOfTime->toDays());
     }
 
 
@@ -29,12 +31,14 @@ final class AmountOfTimeTest extends TestCase
     public function millisecondsProvider(): array
     {
         return [
-            'no amount'                             => [0, 0, 0],
-            'one millisecond'                       => [1, 0, 0],
-            'one second'                            => [1000, 1, 0],
-            '5 minutes'                             => [300000, 300, 5],
-            '1 hour'                                => [3600000, 3600, 60],
-            'not an integer in seconds and minutes' => [6532423, 6532, 108],
+            'no amount'                             => [0, 0, 0, 0],
+            'one millisecond'                       => [1, 0, 0, 0],
+            'one second'                            => [1000, 1, 0, 0],
+            '5 minutes'                             => [300000, 300, 5, 0],
+            '1 hour'                                => [3600000, 3600, 60, 0],
+            'not an integer in seconds and minutes' => [6532423, 6532, 108, 0],
+            '1 day'                                 => [86400000, 86400, 1440, 1],
+            '12 days and 5 hours'                   => [1054800000, 1054800, 17580, 12],
         ];
     }
 
