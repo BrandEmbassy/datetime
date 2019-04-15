@@ -15,10 +15,10 @@
         "brandembassy/datetime-factory": "^1.0"
     },
     "require-dev": {
-        "brandembassy/coding-standard": "^4.0",
+        "brandembassy/coding-standard": "^5.0",
         "doctrine/orm": "^2.6",
-        "phpstan/phpstan-beberlei-assert": "^0.10.0",
-        "phpunit/phpunit": "^7.4",
+        "phpstan/phpstan-beberlei-assert": "^0.11.0",
+        "phpunit/phpunit": "^8",
         "roave/security-advisories": "dev-master"
     },
     "scripts": {
@@ -27,6 +27,8 @@
         "phpstan": "./vendor/bin/phpstan analyse -c phpstan.neon src",
         "test": "./vendor/bin/phpunit src"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "config": {
         "sort-packages": true
     }
