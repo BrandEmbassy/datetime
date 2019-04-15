@@ -11,7 +11,8 @@
     },
     "require": {
         "php": "~7.2",
-        "beberlei/assert": "^3"
+        "beberlei/assert": "^3",
+        "brandembassy/datetime-factory": "^1.0"
     },
     "require-dev": {
         "brandembassy/coding-standard": "^4.0",
@@ -21,8 +22,8 @@
         "roave/security-advisories": "dev-master"
     },
     "scripts": {
-        "phpcs": "vendor/bin/phpcs  --standard=BrandEmbassyCodingStandard src",
-        "phpcbf": "./vendor/bin/phpcbf  --standard=BrandEmbassyCodingStandard src",
+        "phpcs": "vendor/bin/phpcs --standard=BrandEmbassyCodingStandard src",
+        "phpcbf": "./vendor/bin/phpcbf --standard=BrandEmbassyCodingStandard src",
         "phpstan": "./vendor/bin/phpstan analyse -c phpstan.neon src",
         "test": "./vendor/bin/phpunit src"
     },
