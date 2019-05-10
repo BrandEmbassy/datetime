@@ -17,8 +17,12 @@ final class DateTimeImmutableAsTimestampDoctrineType extends Type
     /**
      * @param mixed $value
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): int
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): ?int
     {
+        if ($value === null) {
+            return null;
+        }
+
         if (!$value instanceof DateTimeImmutable) {
             throw new InvalidArgumentException('Given value is not instance of DateTimeImmutable.');
         }
