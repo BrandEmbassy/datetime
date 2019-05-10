@@ -33,7 +33,11 @@ final class DateTimeImmutableAsTimestampDoctrineType extends Type
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTimeImmutable
     {
-        if ($value === null || $value instanceof DateTimeImmutable) {
+        if ($value === '' || $value === null) {
+            return null;
+        }
+
+        if ($value instanceof DateTimeImmutable) {
             return $value;
         }
 
