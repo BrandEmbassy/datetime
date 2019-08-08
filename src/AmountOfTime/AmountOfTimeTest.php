@@ -104,4 +104,29 @@ final class AmountOfTimeTest extends TestCase
             'not an integer in seconds and minutes' => [108, 6480, 6480000],
         ];
     }
+
+
+    /**
+     * @dataProvider typeCastToStringProvider
+     */
+    public function testTypeCastToString(int $miliseconds, string $seconds): void
+    {
+        $amountOfTime = AmountOfTime::fromMilliseconds($miliseconds);
+
+        self::assertSame($seconds, (string)$amountOfTime);
+    }
+
+
+    /**
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingTraversableReturnTypeHintSpecification
+     * @return array
+     */
+    public function typeCastToStringProvider(): array
+    {
+        return [
+            'no amount'                             => [0, '0'],
+            'not an integer in seconds and minutes' => [6532423, '6532.423'],
+            '10 years'                              => [5256000000, '5256000'],
+        ];
+    }
 }

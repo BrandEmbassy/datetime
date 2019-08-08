@@ -22,6 +22,12 @@ final class AmountOfTime
     }
 
 
+    public function __toString(): string
+    {
+        return (string)($this->milliseconds / self::SECOND_IN_MILLISECOND);
+    }
+
+
     public static function fromMilliseconds(int $milliseconds): self
     {
         return new self($milliseconds);
