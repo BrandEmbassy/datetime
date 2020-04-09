@@ -2,10 +2,10 @@
 
 namespace BrandEmbassy\DateTime;
 
-use Assert\Assertion;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
+use InvalidArgumentException;
 use function sprintf;
 
 final class DateTimeFromString
@@ -43,15 +43,15 @@ final class DateTimeFromString
         string $format,
         string $originalDateTimeString
     ): DateTimeImmutable {
-        Assertion::notSame(
-            false,
-            $dateTime,
-            sprintf(
+        if ($dateTime === false) {
+            $message = sprintf(
                 'Can\'t convert %s to datetime using format %s.',
                 $originalDateTimeString,
                 $format
-            )
-        );
+            );
+
+            throw new InvalidArgumentException($message);
+        }
 
         return $dateTime;
     }

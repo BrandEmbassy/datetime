@@ -2,7 +2,7 @@
 
 namespace BrandEmbassy\DateTime\AmountOfTime;
 
-use Assert\Assertion;
+use function assert;
 use function floor;
 
 final class AmountOfTime
@@ -17,7 +17,7 @@ final class AmountOfTime
 
     private function __construct(int $milliseconds)
     {
-        Assertion::greaterOrEqualThan($milliseconds, 0);
+        assert($milliseconds >= 0);
         $this->milliseconds = $milliseconds;
     }
 
