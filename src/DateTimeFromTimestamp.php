@@ -19,4 +19,10 @@ final class DateTimeFromTimestamp
 
         return $dateTime;
     }
+
+
+    public static function createIncludingMilliseconds(int $milliseconds): DateTimeImmutable
+    {
+        return self::create($milliseconds / 1000);
+    }
 }

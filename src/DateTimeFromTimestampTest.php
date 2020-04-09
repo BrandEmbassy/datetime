@@ -11,7 +11,7 @@ class DateTimeFromTimestampTest extends TestCase
     /**
      * @dataProvider timestampProvider
      */
-    public function testShouldCreateDateTimeFromTimestamp(string $expectedDateTime, int $timestamp): void
+    public function testCreateDateTimeFromTimestamp(string $expectedDateTime, int $timestamp): void
     {
         $dateTime = DateTimeFromTimestamp::create($timestamp);
 
@@ -26,6 +26,29 @@ class DateTimeFromTimestampTest extends TestCase
     {
         return [
             ['2017-05-31T13:32:40+00:00', 1496237560],
+            ['1970-01-01T00:00:00+00:00', 0],
+        ];
+    }
+
+
+    /**
+     * @dataProvider timestampWithMillisecondsProvider
+     */
+    public function testCreateDateTimeFromTimestampInMilliseconds(string $expectedDateTime, int $timestamp): void
+    {
+        $dateTime = DateTimeFromTimestamp::createIncludingMilliseconds($timestamp);
+
+        Assert::assertSame($expectedDateTime, $dateTime->format(DateTime::ATOM));
+    }
+
+
+    /**
+     * @return mixed[]
+     */
+    public function timestampWithMillisecondsProvider(): array
+    {
+        return [
+            ['2017-05-31T13:32:40+00:00', 1496237560000],
             ['1970-01-01T00:00:00+00:00', 0],
         ];
     }
