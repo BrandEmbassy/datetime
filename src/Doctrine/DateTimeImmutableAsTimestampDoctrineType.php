@@ -33,6 +33,7 @@ final class DateTimeImmutableAsTimestampDoctrineType extends Type
 
     /**
      * @phpcsSuppress BrandEmbassyCodingStandard.NamingConvention.CamelCapsFunctionName
+     *
      * @param mixed $value
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTimeImmutable
@@ -55,6 +56,7 @@ final class DateTimeImmutableAsTimestampDoctrineType extends Type
 
     /**
      * @phpcsSuppress BrandEmbassyCodingStandard.NamingConvention.CamelCapsFunctionName
+     *
      * @param mixed[] $fieldDeclaration
      */
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform): string

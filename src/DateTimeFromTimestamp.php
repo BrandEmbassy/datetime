@@ -2,8 +2,8 @@
 
 namespace BrandEmbassy\DateTime;
 
-use Assert\Assertion;
 use DateTimeImmutable;
+use function assert;
 use function sprintf;
 
 final class DateTimeFromTimestamp
@@ -12,9 +12,8 @@ final class DateTimeFromTimestamp
     {
         $dateTime = DateTimeImmutable::createFromFormat('U', (string)$timestamp);
 
-        Assertion::notSame(
-            false,
-            $dateTime,
+        assert(
+            $dateTime instanceof DateTimeImmutable,
             sprintf('Can\'t convert timestamp %s to datetime.', $timestamp)
         );
 

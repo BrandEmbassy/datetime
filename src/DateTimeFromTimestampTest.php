@@ -3,6 +3,7 @@
 namespace BrandEmbassy\DateTime;
 
 use DateTime;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
 class DateTimeFromTimestampTest extends TestCase
@@ -14,7 +15,7 @@ class DateTimeFromTimestampTest extends TestCase
     {
         $dateTime = DateTimeFromTimestamp::create($timestamp);
 
-        self::assertSame($expectedDateTime, $dateTime->format(DateTime::ATOM));
+        Assert::assertSame($expectedDateTime, $dateTime->format(DateTime::ATOM));
     }
 
 
