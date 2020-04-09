@@ -5,6 +5,7 @@ namespace BrandEmbassy\DateTime;
 use DateTime;
 use DateTimeZone;
 use InvalidArgumentException;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use function sprintf;
 
@@ -13,14 +14,14 @@ class DateTimeFromStringTest extends TestCase
     /**
      * @dataProvider dateTimeToCreateProvider
      */
-    public function testShouldCreateDateTime(
+    public function testCreateDateTime(
         string $expectedDateTime,
         string $format,
         string $dateTimeString
     ): void {
         $dateTime = DateTimeFromString::create($format, $dateTimeString);
 
-        self::assertEquals($expectedDateTime, $dateTime->format(DateTime::ATOM));
+        Assert::assertSame($expectedDateTime, $dateTime->format(DateTime::ATOM));
     }
 
 
@@ -36,10 +37,19 @@ class DateTimeFromStringTest extends TestCase
     }
 
 
+    public function testCreateDateTimeFromAtom(): void
+    {
+        $dateTimeInAtom = '2017-05-10T12:13:14+02:00';
+
+        $dateTime = DateTimeFromString::createFromAtom($dateTimeInAtom);
+        Assert::assertSame($dateTimeInAtom, $dateTime->format(DateTime::ATOM));
+    }
+
+
     /**
      * @dataProvider dateTimeWithTimeZoneToCreateProvider
      */
-    public function testShouldCreateDateTimeWithTimezone(
+    public function testCreateDateTimeWithTimezone(
         string $expectedDateTime,
         string $format,
         string $dateTimeString,
@@ -47,7 +57,7 @@ class DateTimeFromStringTest extends TestCase
     ): void {
         $dateTime = DateTimeFromString::createWithTimezone($format, $dateTimeString, $timeZone);
 
-        self::assertEquals($expectedDateTime, $dateTime->format(DateTime::ATOM));
+        Assert::assertSame($expectedDateTime, $dateTime->format(DateTime::ATOM));
     }
 
 
@@ -66,7 +76,7 @@ class DateTimeFromStringTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      */
-    public function testShouldThrowExceptionWhenCantCreateDateTime(string $format, string $dateTimeString): void
+    public function testThrowExceptionWhenCantCreateDateTime(string $format, string $dateTimeString): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
@@ -84,7 +94,7 @@ class DateTimeFromStringTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      */
-    public function testShouldThrowExceptionWhenCantCreateDateTimeWithTimeZone(
+    public function testThrowExceptionWhenCantCreateDateTimeWithTimeZone(
         string $format,
         string $dateTimeString
     ): void {

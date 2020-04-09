@@ -2,12 +2,13 @@
 
 namespace BrandEmbassy\DateTime;
 
+use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
 
 final class DateTimeFormatter
 {
-    public function formatInTimezone(
+    public static function formatInTimezone(
         DateTimeImmutable $dateTimeImmutable,
         DateTimeZone $dateTimeZone,
         string $format
@@ -18,7 +19,7 @@ final class DateTimeFormatter
     }
 
 
-    public function formatTimestampInTimezone(
+    public static function formatTimestampInTimezone(
         int $timestamp,
         DateTimeZone $dateTimeZone,
         string $format
@@ -27,5 +28,11 @@ final class DateTimeFormatter
         $dateTimeImmutableInTimezone = $dateTimeImmutable->setTimezone($dateTimeZone);
 
         return $dateTimeImmutableInTimezone->format($format);
+    }
+
+
+    public static function formatAsAtom(DateTimeImmutable $dateTime): string
+    {
+        return $dateTime->format(DateTime::ATOM);
     }
 }

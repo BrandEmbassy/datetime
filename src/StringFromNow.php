@@ -11,18 +11,10 @@ final class StringFromNow
      */
     private $dateTimeImmutableFactory;
 
-    /**
-     * @var DateTimeFormatter
-     */
-    private $dateTimeFormatter;
 
-
-    public function __construct(
-        DateTimeFormatter $dateTimeFormatter,
-        DateTimeImmutableFactory $dateTimeImmutableFactory
-    ) {
+    public function __construct(DateTimeImmutableFactory $dateTimeImmutableFactory)
+    {
         $this->dateTimeImmutableFactory = $dateTimeImmutableFactory;
-        $this->dateTimeFormatter = $dateTimeFormatter;
     }
 
 
@@ -30,6 +22,6 @@ final class StringFromNow
     {
         $now = $this->dateTimeImmutableFactory->getNow();
 
-        return $this->dateTimeFormatter->formatInTimezone($now, $dateTimeZone, $format);
+        return DateTimeFormatter::formatInTimezone($now, $dateTimeZone, $format);
     }
 }

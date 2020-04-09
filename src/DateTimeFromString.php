@@ -3,6 +3,7 @@
 namespace BrandEmbassy\DateTime;
 
 use Assert\Assertion;
+use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
 use function sprintf;
@@ -14,6 +15,12 @@ final class DateTimeFromString
         $dateTime = DateTimeImmutable::createFromFormat($format, $dateTimeString);
 
         return self::assertValidDateTime($dateTime, $format, $dateTimeString);
+    }
+
+
+    public static function createFromAtom(string $dateTimeAtomString): DateTimeImmutable
+    {
+        return self::create(DateTime::ATOM, $dateTimeAtomString);
     }
 
 
