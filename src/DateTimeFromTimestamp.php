@@ -3,24 +3,29 @@
 namespace BrandEmbassy\DateTime;
 
 use DateTimeImmutable;
-use function assert;
+use InvalidArgumentException;
 use function sprintf;
 
 final class DateTimeFromTimestamp
 {
+    /**
+     * @throws InvalidArgumentException
+     */
     public static function create(int $timestamp): DateTimeImmutable
     {
         $dateTime = DateTimeImmutable::createFromFormat('U', (string)$timestamp);
 
-        assert(
-            $dateTime instanceof DateTimeImmutable,
-            sprintf('Can\'t convert timestamp %s to datetime.', $timestamp)
-        );
+        if (!$dateTime instanceof DateTimeImmutable) {
+            throw new InvalidArgumentException(sprintf('Can\'t convert timestamp %s to datetime.', $timestamp));
+        }
 
         return $dateTime;
     }
 
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public static function createIncludingMilliseconds(int $milliseconds): DateTimeImmutable
     {
         return self::create($milliseconds / 1000);

@@ -2,7 +2,7 @@
 
 namespace BrandEmbassy\DateTime\AmountOfTime;
 
-use function assert;
+use InvalidArgumentException;
 use function floor;
 
 final class AmountOfTime
@@ -15,9 +15,15 @@ final class AmountOfTime
     private $milliseconds;
 
 
+    /**
+     * @throws InvalidArgumentException
+     */
     private function __construct(int $milliseconds)
     {
-        assert($milliseconds >= 0);
+        if ($milliseconds < 0) {
+            throw new InvalidArgumentException('Ammount of millisecond can\'t be negative number.');
+        }
+
         $this->milliseconds = $milliseconds;
     }
 
@@ -28,24 +34,36 @@ final class AmountOfTime
     }
 
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public static function fromMilliseconds(int $milliseconds): self
     {
         return new self($milliseconds);
     }
 
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public static function fromSeconds(int $seconds): self
     {
         return new self($seconds * self::SECOND_IN_MILLISECOND);
     }
 
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public static function fromMinutes(int $minutes): self
     {
         return new self($minutes * TimeInSeconds::MINUTE * self::SECOND_IN_MILLISECOND);
     }
 
 
+    /**
+     * @throws InvalidArgumentException
+     */
     public static function fromDays(int $days): self
     {
         return new self($days * TimeInSeconds::DAY * self::SECOND_IN_MILLISECOND);

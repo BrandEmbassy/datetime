@@ -4,28 +4,36 @@ namespace BrandEmbassy\DateTime;
 
 use DateTime;
 use DateTimeImmutable;
+use DateTimeInterface;
 use DateTimeZone;
 use PHPStan\Testing\TestCase;
 use PHPUnit\Framework\Assert;
 
 final class DateTimeFormatterTest extends TestCase
 {
-    public function testFormatAsAtom(): void
-    {
-        $dateTimeInAtom = '2017-05-10T12:13:14+02:00';
-        $formattedDateTime = DateTimeFormatter::formatAsAtom(new DateTimeImmutable($dateTimeInAtom));
+    private const DATETIME_IN_ATOM = '2017-05-10T12:13:14+02:00';
 
-        Assert::assertSame($dateTimeInAtom, $formattedDateTime);
+
+    /**
+     * @dataProvider getDateTimeToFormat
+     */
+    public function testFormatAsAtom(DateTimeInterface $dateTime): void
+    {
+        $formattedDateTime = DateTimeFormatter::formatAsAtom($dateTime);
+
+        Assert::assertSame(self::DATETIME_IN_ATOM, $formattedDateTime);
     }
 
 
-    public function testFormatInTimezone(): void
+    /**
+     * @dataProvider getDateTimeToFormat
+     */
+    public function testFormatInTimezone(DateTimeInterface $dateTime): void
     {
-        $pragueDateTimeFormat = '2017-05-10T12:13:14+02:00';
         $expectedUtcFormat = '2017-05-10T10:13:14+00:00';
 
         $formattedDateTime = DateTimeFormatter::formatInTimezone(
-            new DateTimeImmutable($pragueDateTimeFormat),
+            $dateTime,
             new DateTimeZone('UTC'),
             DateTime::ATOM
         );
@@ -34,17 +42,28 @@ final class DateTimeFormatterTest extends TestCase
     }
 
 
-    public function testFormatInTimezoneAsAtom(): void
+    /**
+     * @dataProvider getDateTimeToFormat
+     */
+    public function testFormatInTimezoneAsAtom(DateTimeInterface $dateTime): void
     {
-        $pragueDateTimeFormat = '2017-05-10T12:13:14+02:00';
         $expectedUtcFormat = '2017-05-10T10:13:14+00:00';
 
-        $formattedDateTime = DateTimeFormatter::formatInTimezoneAsAtom(
-            new DateTimeImmutable($pragueDateTimeFormat),
-            new DateTimeZone('UTC')
-        );
+        $formattedDateTime = DateTimeFormatter::formatInTimezoneAsAtom($dateTime, new DateTimeZone('UTC'));
 
         Assert::assertSame($expectedUtcFormat, $formattedDateTime);
+    }
+
+
+    /**
+     * @return DateTimeInterface[][]
+     */
+    public function getDateTimeToFormat(): array
+    {
+        return [
+            'immutable' => [new DateTimeImmutable(self::DATETIME_IN_ATOM)],
+            'muttable' => [new DateTime(self::DATETIME_IN_ATOM)],
+        ];
     }
 
 
