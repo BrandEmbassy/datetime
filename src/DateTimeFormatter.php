@@ -3,14 +3,16 @@
 namespace BrandEmbassy\DateTime;
 
 use DateTime;
-use DateTimeImmutable;
+use DateTimeInterface;
 use DateTimeZone;
+use function assert;
+use function method_exists;
 
 final class DateTimeFormatter
 {
-    public static function format(DateTimeImmutable $dateTimeImmutable, string $format): string
+    public static function format(DateTimeInterface $dateTime, string $format): string
     {
-        return $dateTimeImmutable->format($format);
+        return $dateTime->format($format);
     }
 
 
@@ -22,7 +24,7 @@ final class DateTimeFormatter
     }
 
 
-    public static function formatAsAtom(DateTimeImmutable $dateTime): string
+    public static function formatAsAtom(DateTimeInterface $dateTime): string
     {
         return self::format($dateTime, DateTime::ATOM);
     }
@@ -37,16 +39,20 @@ final class DateTimeFormatter
 
 
     public static function formatInTimezone(
-        DateTimeImmutable $dateTimeImmutable,
+        DateTimeInterface $dateTime,
         DateTimeZone $dateTimeZone,
         string $format
     ): string {
-        return self::format($dateTimeImmutable->setTimezone($dateTimeZone), $format);
+        assert(method_exists($dateTime, 'setTimezone'));
+
+        return self::format($dateTime->setTimezone($dateTimeZone), $format);
     }
 
 
-    public static function formatInTimezoneAsAtom(DateTimeImmutable $dateTime, DateTimeZone $dateTimeZone): string
+    public static function formatInTimezoneAsAtom(DateTimeInterface $dateTime, DateTimeZone $dateTimeZone): string
     {
+        assert(method_exists($dateTime, 'setTimezone'));
+
         return self::formatAsAtom($dateTime->setTimezone($dateTimeZone));
     }
 

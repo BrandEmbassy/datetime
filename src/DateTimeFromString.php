@@ -37,6 +37,8 @@ final class DateTimeFromString
 
     /**
      * @param DateTimeImmutable|false $dateTime
+     *
+     * @throws InvalidArgumentException
      */
     private static function assertValidDateTime(
         $dateTime,
