@@ -12,6 +12,7 @@ use function is_float;
 final class DateTimeImmutableAsTimestampDoctrineType extends Type
 {
     public const NAME = 'datetime_immutable_as_timestamp';
+    private const EMPTY_DATETIME = '0000-00-00 00:00:00';
 
 
     /**
@@ -38,7 +39,7 @@ final class DateTimeImmutableAsTimestampDoctrineType extends Type
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?DateTimeImmutable
     {
-        if ($value === '' || $value === null) {
+        if ($value === '' || $value === null || $value === self::EMPTY_DATETIME) {
             return null;
         }
 
