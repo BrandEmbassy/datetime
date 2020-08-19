@@ -11,23 +11,28 @@ final class DateTimeModifierTest extends TestCase
     /**
      * @dataProvider getBeginningOfTheDayDataProvider
      */
-    public function testGetBeginningOfTheDay(int $expectedTimestamp, int $originTimestamp): void
+    public function testGetBeginningOfTheDay(string $expectedAtom, string $originAtom): void
     {
-        $originDateTime = DateTimeFromTimestamp::create($originTimestamp);
+        $originDateTime = DateTimeFromString::createFromAtom($originAtom);
+        $expectedDateTime = DateTimeFromString::createFromAtom($expectedAtom);
 
-        Assert::assertSame($expectedTimestamp, DateTimeModifier::getBeginningOfTheDay($originDateTime)->getTimestamp());
+        Assert::assertSame(
+            DateTimeFormatter::formatAsAtom($expectedDateTime),
+            DateTimeFormatter::formatAsAtom(DateTimeModifier::getBeginningOfTheDay($originDateTime))
+        );
     }
 
 
     /**
-     * @return int[][]
+     * @return string[][]
      */
     public function getBeginningOfTheDayDataProvider(): array
     {
         return [
-            ['expectedTimestamp' => 1597708800, 'originTimestamp' => 1597709898],
-            ['expectedTimestamp' => 1597795200, 'originTimestamp' => 1597834270],
-            ['expectedTimestamp' => 1598918400, 'originTimestamp' => 1598957623],
+            ['expectedAtom' => '2020-08-18T00:00:00+02:00', 'originAtom' => '2020-08-18T02:18:18+02:00'],
+            ['expectedAtom' => '2020-08-18T00:00:00+02:00', 'originAtom' => '2020-08-18T23:59:59+02:00'],
+            ['expectedAtom' => '2020-08-18T00:00:00+01:00', 'originAtom' => '2020-08-18T00:00:01+01:00'],
+            ['expectedAtom' => '2020-08-18T00:00:00+01:00', 'originAtom' => '2020-08-18T11:59:00+01:00'],
         ];
     }
 
@@ -36,29 +41,45 @@ final class DateTimeModifierTest extends TestCase
      * @dataProvider getBeginningOfTheDayInTimezoneDataProvider
      */
     public function testGetBeginningOfTheDayInTimezone(
-        int $expectedTimestamp,
-        int $originTimestamp,
+        string $expectedAtom,
+        string $originAtom,
         string $dateTimeZoneName
     ): void {
-        $originDateTime = DateTimeFromTimestamp::create($originTimestamp);
+        $originDateTime = DateTimeFromString::createFromAtom($originAtom);
+        $expectedDateTime = DateTimeFromString::createFromAtom($expectedAtom);
+
         $dateTimeZone = new DateTimeZone($dateTimeZoneName);
 
         Assert::assertSame(
-            $expectedTimestamp,
-            DateTimeModifier::getBeginningOfTheDayInTimezone($originDateTime, $dateTimeZone)->getTimestamp()
+            DateTimeFormatter::formatAsAtom($expectedDateTime),
+            DateTimeFormatter::formatAsAtom(
+                DateTimeModifier::getBeginningOfTheDayInTimezone($originDateTime, $dateTimeZone)
+            )
         );
     }
 
 
     /**
-     * @return mixed[]
+     * @return string[][]
      */
     public function getBeginningOfTheDayInTimezoneDataProvider(): array
     {
         return [
-            ['expectedTimestamp' => 1597795200, 'originTimestamp' => 1597834270, 'dateTimeZoneName' => 'UTC'],
-            ['expectedTimestamp' => 1597788000, 'originTimestamp' => 1597834270, 'dateTimeZoneName' => 'Europe/Prague'],
-            ['expectedTimestamp' => 1597791600, 'originTimestamp' => 1597834270, 'dateTimeZoneName' => 'Europe/London'],
+            [
+                'expectedAtom' => '2020-08-18T00:00:00+00:00',
+                'originAtom' => '2020-08-18T02:18:18+02:00',
+                'dateTimeZoneName' => 'UTC',
+            ],
+            [
+                'expectedAtom' => '2020-08-18T00:00:00+02:00',
+                'originAtom' => '2020-08-18T02:18:18+02:00',
+                'dateTimeZoneName' => 'Europe/Prague',
+            ],
+            [
+                'expectedAtom' => '2020-08-18T00:00:00+01:00',
+                'originAtom' => '2020-08-18T02:18:18+02:00',
+                'dateTimeZoneName' => 'Europe/London',
+            ],
         ];
     }
 
@@ -66,23 +87,28 @@ final class DateTimeModifierTest extends TestCase
     /**
      * @dataProvider getEndOfTheDayDataProvider
      */
-    public function testGetEndOfTheDay(int $expectedTimestamp, int $originTimestamp): void
+    public function testGetEndOfTheDay(string $expectedAtom, string $originAtom): void
     {
-        $originDateTime = DateTimeFromTimestamp::create($originTimestamp);
+        $originDateTime = DateTimeFromString::createFromAtom($originAtom);
+        $expectedDateTime = DateTimeFromString::createFromAtom($expectedAtom);
 
-        Assert::assertSame($expectedTimestamp, DateTimeModifier::getEndOfTheDay($originDateTime)->getTimestamp());
+        Assert::assertSame(
+            DateTimeFormatter::formatAsAtom($expectedDateTime),
+            DateTimeFormatter::formatAsAtom(DateTimeModifier::getEndOfTheDay($originDateTime))
+        );
     }
 
 
     /**
-     * @return int[][]
+     * @return string[][]
      */
     public function getEndOfTheDayDataProvider(): array
     {
         return [
-            ['expectedTimestamp' => 1597881599, 'originTimestamp' => 1597835685],
-            ['expectedTimestamp' => 1597881599, 'originTimestamp' => 1597834270],
-            ['expectedTimestamp' => 1599004799, 'originTimestamp' => 1598957623],
+            ['expectedAtom' => '2020-08-18T23:59:59+02:00', 'originAtom' => '2020-08-18T02:18:18+02:00'],
+            ['expectedAtom' => '2020-08-18T23:59:59+02:00', 'originAtom' => '2020-08-18T23:59:59+02:00'],
+            ['expectedAtom' => '2020-08-18T23:59:59+01:00', 'originAtom' => '2020-08-18T00:00:01+01:00'],
+            ['expectedAtom' => '2020-08-18T23:59:59+01:00', 'originAtom' => '2020-08-18T11:59:00+01:00'],
         ];
     }
 
@@ -91,29 +117,45 @@ final class DateTimeModifierTest extends TestCase
      * @dataProvider getEndOfTheDayInTimezoneDataProvider
      */
     public function testGetEndOfTheDayInTimezone(
-        int $expectedTimestamp,
-        int $originTimestamp,
+        string $expectedAtom,
+        string $originAtom,
         string $dateTimeZoneName
     ): void {
-        $originDateTime = DateTimeFromTimestamp::create($originTimestamp);
+        $originDateTime = DateTimeFromString::createFromAtom($originAtom);
+        $expectedDateTime = DateTimeFromString::createFromAtom($expectedAtom);
+
         $dateTimeZone = new DateTimeZone($dateTimeZoneName);
 
         Assert::assertSame(
-            $expectedTimestamp,
-            DateTimeModifier::getEndOfTheDayInTimezone($originDateTime, $dateTimeZone)->getTimestamp()
+            DateTimeFormatter::formatAsAtom($expectedDateTime),
+            DateTimeFormatter::formatAsAtom(
+                DateTimeModifier::getEndOfTheDayInTimezone($originDateTime, $dateTimeZone)
+            )
         );
     }
 
 
     /**
-     * @return mixed[]
+     * @return string[][]
      */
     public function getEndOfTheDayInTimezoneDataProvider(): array
     {
         return [
-            ['expectedTimestamp' => 1597881599, 'originTimestamp' => 1597834270, 'dateTimeZoneName' => 'UTC'],
-            ['expectedTimestamp' => 1597874399, 'originTimestamp' => 1597834270, 'dateTimeZoneName' => 'Europe/Prague'],
-            ['expectedTimestamp' => 1597877999, 'originTimestamp' => 1597834270, 'dateTimeZoneName' => 'Europe/London'],
+            [
+                'expectedAtom' => '2020-08-18T23:59:59+00:00',
+                'originAtom' => '2020-08-18T02:18:18+02:00',
+                'dateTimeZoneName' => 'UTC',
+            ],
+            [
+                'expectedAtom' => '2020-08-18T23:59:59+02:00',
+                'originAtom' => '2020-08-18T02:18:18+02:00',
+                'dateTimeZoneName' => 'Europe/Prague',
+            ],
+            [
+                'expectedAtom' => '2020-08-18T23:59:59+01:00',
+                'originAtom' => '2020-08-18T02:18:18+02:00',
+                'dateTimeZoneName' => 'Europe/London',
+            ],
         ];
     }
 }
