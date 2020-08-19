@@ -30,9 +30,11 @@ final class DateTimeModifierTest extends TestCase
     {
         return [
             ['expectedAtom' => '2020-08-18T00:00:00+02:00', 'originAtom' => '2020-08-18T02:18:18+02:00'],
+            ['expectedAtom' => '2020-08-18T00:00:00+02:00', 'originAtom' => '2020-08-18T00:00:00+02:00'],
             ['expectedAtom' => '2020-08-18T00:00:00+02:00', 'originAtom' => '2020-08-18T23:59:59+02:00'],
             ['expectedAtom' => '2020-08-18T00:00:00+01:00', 'originAtom' => '2020-08-18T00:00:01+01:00'],
             ['expectedAtom' => '2020-08-18T00:00:00+01:00', 'originAtom' => '2020-08-18T11:59:00+01:00'],
+            ['expectedAtom' => '2020-08-18T00:00:00-04:00', 'originAtom' => '2020-08-18T11:59:00-04:00'],
         ];
     }
 
@@ -80,6 +82,11 @@ final class DateTimeModifierTest extends TestCase
                 'originAtom' => '2020-08-18T02:18:18+02:00',
                 'dateTimeZoneName' => 'Europe/London',
             ],
+            [
+                'expectedAtom' => '2020-08-17T00:00:00-06:00',
+                'originAtom' => '2020-08-18T02:18:18+02:00',
+                'dateTimeZoneName' => 'America/Denver',
+            ],
         ];
     }
 
@@ -109,6 +116,8 @@ final class DateTimeModifierTest extends TestCase
             ['expectedAtom' => '2020-08-18T23:59:59+02:00', 'originAtom' => '2020-08-18T23:59:59+02:00'],
             ['expectedAtom' => '2020-08-18T23:59:59+01:00', 'originAtom' => '2020-08-18T00:00:01+01:00'],
             ['expectedAtom' => '2020-08-18T23:59:59+01:00', 'originAtom' => '2020-08-18T11:59:00+01:00'],
+            ['expectedAtom' => '2020-08-18T23:59:59+01:00', 'originAtom' => '2020-08-18T23:59:59+01:00'],
+            ['expectedAtom' => '2020-08-18T23:59:59-04:00', 'originAtom' => '2020-08-18T11:59:00-04:00'],
         ];
     }
 
@@ -155,6 +164,11 @@ final class DateTimeModifierTest extends TestCase
                 'expectedAtom' => '2020-08-18T23:59:59+01:00',
                 'originAtom' => '2020-08-18T02:18:18+02:00',
                 'dateTimeZoneName' => 'Europe/London',
+            ],
+            [
+                'expectedAtom' => '2020-08-17T23:59:59-06:00',
+                'originAtom' => '2020-08-18T02:18:18+02:00',
+                'dateTimeZoneName' => 'America/Denver',
             ],
         ];
     }
