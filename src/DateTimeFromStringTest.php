@@ -2,86 +2,183 @@
 
 namespace BrandEmbassy\DateTime;
 
+use BrandEmbassy\DateTime\Format\Rfc3339ExtendedFormat;
 use DateTime;
 use DateTimeZone;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use function sprintf;
 
-class DateTimeFromStringTest extends TestCase
+final class DateTimeFromStringTest extends TestCase
 {
     /**
-     * @dataProvider dateTimeToCreateProvider
+     * @dataProvider dateTimeInFormatProvider
      */
-    public function testCreateDateTime(
+    public function testCreateFromFormat(
         string $expectedDateTime,
         string $format,
         string $dateTimeString
     ): void {
-        $dateTime = DateTimeFromString::create($format, $dateTimeString);
+        $rfcFormat = Rfc3339ExtendedFormat::getOutputFormat();
 
-        Assert::assertSame($expectedDateTime, $dateTime->format(DateTime::ATOM));
+        $dateTime = DateTimeFromString::createFromFormat($format, $dateTimeString);
+
+        Assert::assertSame($expectedDateTime, $dateTime->format($rfcFormat));
     }
 
 
     /**
      * @return mixed[]
      */
-    public function dateTimeToCreateProvider(): array
+    public function dateTimeInFormatProvider(): array
     {
+        $rfcFormat = Rfc3339ExtendedFormat::getInputFormat();
+
         return [
             'Unix timestamp' => [
-                'expectedDateTime' => '2017-05-31T13:32:40+00:00',
+                'expectedDateTime' => '2017-05-31T13:32:40.000+00:00',
                 'format' => 'U',
                 'dateTimeString' => '1496237560',
             ],
             'Negative Unix timestamp' => [
-                'expectedDateTime' => '1969-12-31T23:59:59+00:00',
+                'expectedDateTime' => '1969-12-31T23:59:59.000+00:00',
                 'format' => 'U',
                 'dateTimeString' => '-1',
             ],
             'ISO 8601 with TZ designators ±hh:mm' => [
-                'expectedDateTime' => '2017-05-10T12:13:14+05:00',
+                'expectedDateTime' => '2017-05-10T12:13:14.000+05:00',
                 'format' => DateTime::ATOM,
                 'dateTimeString' => '2017-05-10T12:13:14+05:00',
             ],
             'ISO 8601 with TZ designator Z' => [
-                'expectedDateTime' => '2017-05-10T12:13:14+00:00',
+                'expectedDateTime' => '2017-05-10T12:13:14.000+00:00',
                 'format' => DateTime::ATOM,
                 'dateTimeString' => '2017-05-10T12:13:14Z',
             ],
             'ISO 8601 with TZ designator ±hhmm' => [
-                'expectedDateTime' => '2017-05-10T12:13:14+08:00',
+                'expectedDateTime' => '2017-05-10T12:13:14.000+08:00',
                 'format' => DateTime::ATOM,
                 'dateTimeString' => '2017-05-10T12:13:14+0800',
             ],
             'ISO 8601 with TZ designator ±hh' => [
-                'expectedDateTime' => '2017-05-10T12:13:14-03:00',
+                'expectedDateTime' => '2017-05-10T12:13:14.000-03:00',
                 'format' => DateTime::ATOM,
                 'dateTimeString' => '2017-05-10T12:13:14-03',
+            ],
+            'RFC3339 with milliseconds' => [
+                'expectedDateTime' => '2017-05-10T12:13:14.314+00:00',
+                'format' => $rfcFormat,
+                'dateTimeString' => '2017-05-10T12:13:14.314Z',
             ],
         ];
     }
 
 
-    public function testCreateDateTimeFromAtom(): void
+    /**
+     * @dataProvider validDateTimeProvider
+     */
+    public function testCreateDateTime(string $expectedDateTimeString, string $dateTimeString): void
     {
-        $dateTimeInAtom = '2017-05-10T12:13:14+02:00';
+        $dateTime = DateTimeFromString::create($dateTimeString);
 
-        $dateTime = DateTimeFromString::createFromAtom($dateTimeInAtom);
-        Assert::assertSame($dateTimeInAtom, $dateTime->format(DateTime::ATOM));
+        Assert::assertSame($expectedDateTimeString, $dateTime->format(DateTime::RFC3339_EXTENDED));
     }
 
 
     /**
-     * @dataProvider dateTimeWithTimeZoneToCreateProvider
+     * @return array<string, array<string, string|bool>>
      */
-    public function testCreateDateTimeWithTimezone(
+    public function validDateTimeProvider(): array
+    {
+        return [
+            'TZ +2h without millis' => [
+                'expectedDateTimeString' => '2017-05-10T12:13:14.000+02:00',
+                'dateTimeString' => '2017-05-10T12:13:14+02:00',
+            ],
+            'TZ -2h without millis' => [
+                'expectedDateTimeString' => '2017-05-10T12:13:14.000-02:00',
+                'dateTimeString' => '2017-05-10T12:13:14-02:00',
+            ],
+            'UTC without millis' => [
+                'expectedDateTimeString' => '2017-05-10T12:13:14.000+00:00',
+                'dateTimeString' => '2017-05-10T12:13:14Z',
+            ],
+        ];
+    }
+
+
+    /**
+     * @dataProvider validDateTimeWithMillisecondsProvider
+     */
+    public function testCreateDateTimeWithMilliseconds(string $expectedDateTimeString, string $dateTimeString): void
+    {
+        $dateTime = DateTimeFromString::createWithMilliseconds($dateTimeString);
+
+        Assert::assertSame($expectedDateTimeString, $dateTime->format(DateTime::RFC3339_EXTENDED));
+    }
+
+
+    /**
+     * @return array<string, array<string, string|bool>>
+     */
+    public function validDateTimeWithMillisecondsProvider(): array
+    {
+        return [
+            'TZ +2h with millis' => [
+                'expectedDateTimeString' => '2017-05-10T12:13:14.345+02:00',
+                'dateTimeString' => '2017-05-10T12:13:14.345+02:00',
+            ],
+            'TZ -2h with millis' => [
+                'expectedDateTimeString' => '2017-05-10T12:13:14.345-02:00',
+                'dateTimeString' => '2017-05-10T12:13:14.345-02:00',
+            ],
+            'UTC with millis' => [
+                'expectedDateTimeString' => '2017-05-10T12:13:14.222+00:00',
+                'dateTimeString' => '2017-05-10T12:13:14.222Z',
+            ],
+            'Zero millis' => [
+                'expectedDateTimeString' => '2017-05-10T12:13:14.000+00:00',
+                'dateTimeString' => '2017-05-10T12:13:14.000+00:00',
+            ],
+        ];
+    }
+
+
+    public function testThrowExceptionWhenCannotCreateDateTime(): void
+    {
+        $this->expectException(InvalidDateTimeStringException::class);
+        $this->expectExceptionMessage(
+            "Can't convert '2020-12-05T02:50:16.123+03:00' to datetime using format Y-m-d\TH:i:sP."
+        );
+
+        DateTimeFromString::create('2020-12-05T02:50:16.123+03:00');
+    }
+
+
+    public function testThrowExceptionWhenCannotCreateDateTimeWithMilliseconds(): void
+    {
+        $this->expectException(InvalidDateTimeStringException::class);
+        $this->expectExceptionMessage(
+            sprintf(
+                "Can't convert '2020-12-05T02:50:16+03:00' to datetime using format %s.",
+                Rfc3339ExtendedFormat::getInputFormat()
+            )
+        );
+
+        DateTimeFromString::createWithMilliseconds('2020-12-05T02:50:16+03:00');
+    }
+
+
+    /**
+     * @dataProvider dateTimeWithTimeZoneAndFormatToCreateProvider
+     */
+    public function testCreateDateTimeWithTimezoneFromFormat(
         string $expectedDateTime,
         string $format,
         string $dateTimeString,
         DateTimeZone $timeZone
     ): void {
-        $dateTime = DateTimeFromString::createWithTimezone($format, $dateTimeString, $timeZone);
+        $dateTime = DateTimeFromString::createWithTimezoneFromFormat($format, $dateTimeString, $timeZone);
 
         Assert::assertSame($expectedDateTime, $dateTime->format(DateTime::ATOM));
     }
@@ -90,7 +187,7 @@ class DateTimeFromStringTest extends TestCase
     /**
      * @return mixed[]
      */
-    public function dateTimeWithTimeZoneToCreateProvider(): array
+    public function dateTimeWithTimeZoneAndFormatToCreateProvider(): array
     {
         return [
             [
@@ -120,7 +217,7 @@ class DateTimeFromStringTest extends TestCase
         $this->expectException(InvalidDateTimeStringException::class);
         $this->expectExceptionMessage($expectedExceptionMessage);
 
-        DateTimeFromString::create($format, $dateTimeString);
+        DateTimeFromString::createFromFormat($format, $dateTimeString);
     }
 
 
@@ -135,7 +232,7 @@ class DateTimeFromStringTest extends TestCase
         $this->expectException(InvalidDateTimeStringException::class);
         $this->expectExceptionMessage($expectedExceptionMessage);
 
-        DateTimeFromString::createWithTimezone($format, $dateTimeString, new DateTimeZone('Europe/Prague'));
+        DateTimeFromString::createWithTimezoneFromFormat($format, $dateTimeString, new DateTimeZone('Europe/Prague'));
     }
 
 

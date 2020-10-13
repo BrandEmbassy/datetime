@@ -16,7 +16,7 @@ final class DateTimeFromTimestamp
         $dateTime = DateTimeImmutable::createFromFormat('U', (string)$timestamp);
 
         if (!$dateTime instanceof DateTimeImmutable) {
-            throw new InvalidArgumentException(sprintf('Can\'t convert timestamp %s to datetime.', $timestamp));
+            throw new InvalidArgumentException(sprintf('Can\'t convert timestamp %d to datetime.', $timestamp));
         }
 
         return $dateTime;
@@ -28,6 +28,13 @@ final class DateTimeFromTimestamp
      */
     public static function createIncludingMilliseconds(int $milliseconds): DateTimeImmutable
     {
-        return self::create((int)($milliseconds / 1000));
+        $timestampWithMilliseconds = sprintf('%.3f', $milliseconds / 1000);
+        $dateTime = DateTimeImmutable::createFromFormat('U.u', $timestampWithMilliseconds);
+
+        if (!$dateTime instanceof DateTimeImmutable) {
+            throw new InvalidArgumentException(sprintf('Can\'t convert timestamp %d to datetime.', $milliseconds));
+        }
+
+        return $dateTime;
     }
 }

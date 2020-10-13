@@ -2,6 +2,7 @@
 
 namespace BrandEmbassy\DateTime;
 
+use BrandEmbassy\DateTime\Format\Rfc3339ExtendedFormat;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
@@ -13,7 +14,7 @@ final class DateTimeFromString
     /**
      * @throws InvalidDateTimeStringException
      */
-    public static function create(string $format, string $dateTimeString): DateTimeImmutable
+    public static function createFromFormat(string $format, string $dateTimeString): DateTimeImmutable
     {
         $dateTime = DateTimeImmutable::createFromFormat($format, $dateTimeString);
 
@@ -24,19 +25,24 @@ final class DateTimeFromString
     }
 
 
-    /**
-     * @throws InvalidDateTimeStringException
-     */
-    public static function createFromAtom(string $dateTimeAtomString): DateTimeImmutable
+    public static function create(string $dateTimeStringInRfc3339): DateTimeImmutable
     {
-        return self::create(DateTime::ATOM, $dateTimeAtomString);
+        return self::createFromFormat(DateTime::RFC3339, $dateTimeStringInRfc3339);
+    }
+
+
+    public static function createWithMilliseconds(string $dateTimeStringInRfc3339ExtendedString): DateTimeImmutable
+    {
+        $format = Rfc3339ExtendedFormat::getInputFormat();
+
+        return self::createFromFormat($format, $dateTimeStringInRfc3339ExtendedString);
     }
 
 
     /**
      * @throws InvalidDateTimeStringException
      */
-    public static function createWithTimezone(
+    public static function createWithTimezoneFromFormat(
         string $format,
         string $dateTimeString,
         DateTimeZone $timezone

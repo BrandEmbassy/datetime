@@ -13,12 +13,12 @@ final class DateTimeModifierTest extends TestCase
      */
     public function testGetBeginningOfTheDay(string $expectedAtom, string $originAtom): void
     {
-        $originDateTime = DateTimeFromString::createFromAtom($originAtom);
-        $expectedDateTime = DateTimeFromString::createFromAtom($expectedAtom);
+        $originDateTime = DateTimeFromString::create($originAtom);
+        $expectedDateTime = DateTimeFromString::create($expectedAtom);
 
         Assert::assertSame(
-            DateTimeFormatter::formatAsAtom($expectedDateTime),
-            DateTimeFormatter::formatAsAtom(DateTimeModifier::getBeginningOfTheDay($originDateTime))
+            DateTimeFormatter::format($expectedDateTime),
+            DateTimeFormatter::format(DateTimeModifier::getBeginningOfTheDay($originDateTime))
         );
     }
 
@@ -47,14 +47,14 @@ final class DateTimeModifierTest extends TestCase
         string $originAtom,
         string $dateTimeZoneName
     ): void {
-        $originDateTime = DateTimeFromString::createFromAtom($originAtom);
-        $expectedDateTime = DateTimeFromString::createFromAtom($expectedAtom);
+        $originDateTime = DateTimeFromString::create($originAtom);
+        $expectedDateTime = DateTimeFromString::create($expectedAtom);
 
         $dateTimeZone = new DateTimeZone($dateTimeZoneName);
 
         Assert::assertSame(
-            DateTimeFormatter::formatAsAtom($expectedDateTime),
-            DateTimeFormatter::formatAsAtom(
+            DateTimeFormatter::format($expectedDateTime),
+            DateTimeFormatter::format(
                 DateTimeModifier::getBeginningOfTheDayInTimezone($originDateTime, $dateTimeZone)
             )
         );
@@ -96,12 +96,12 @@ final class DateTimeModifierTest extends TestCase
      */
     public function testGetEndOfTheDay(string $expectedAtom, string $originAtom): void
     {
-        $originDateTime = DateTimeFromString::createFromAtom($originAtom);
-        $expectedDateTime = DateTimeFromString::createFromAtom($expectedAtom);
+        $originDateTime = DateTimeFromString::create($originAtom);
+        $expectedDateTime = DateTimeFromString::create($expectedAtom);
 
         Assert::assertSame(
-            DateTimeFormatter::formatAsAtom($expectedDateTime),
-            DateTimeFormatter::formatAsAtom(DateTimeModifier::getEndOfTheDay($originDateTime))
+            DateTimeFormatter::format($expectedDateTime),
+            DateTimeFormatter::format(DateTimeModifier::getEndOfTheDay($originDateTime))
         );
     }
 
@@ -130,14 +130,14 @@ final class DateTimeModifierTest extends TestCase
         string $originAtom,
         string $dateTimeZoneName
     ): void {
-        $originDateTime = DateTimeFromString::createFromAtom($originAtom);
-        $expectedDateTime = DateTimeFromString::createFromAtom($expectedAtom);
+        $originDateTime = DateTimeFromString::create($originAtom);
+        $expectedDateTime = DateTimeFromString::create($expectedAtom);
 
         $dateTimeZone = new DateTimeZone($dateTimeZoneName);
 
         Assert::assertSame(
-            DateTimeFormatter::formatAsAtom($expectedDateTime),
-            DateTimeFormatter::formatAsAtom(
+            DateTimeFormatter::format($expectedDateTime),
+            DateTimeFormatter::format(
                 DateTimeModifier::getEndOfTheDayInTimezone($originDateTime, $dateTimeZone)
             )
         );
