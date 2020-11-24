@@ -31,8 +31,21 @@ class DateTimeFromStringTest extends TestCase
     public function dateTimeToCreateProvider(): array
     {
         return [
-            ['2017-05-31T13:32:40+00:00', 'U', '1496237560'],
-            ['2017-05-10T12:13:14+02:00', DateTime::ATOM, '2017-05-10T12:13:14+02:00'],
+            [
+                'expectedDateTime' => '2017-05-31T13:32:40+00:00',
+                'format' => 'U',
+                'dateTimeString' => '1496237560',
+            ],
+            [
+                'expectedDateTime' => '1969-12-31T23:59:59+00:00',
+                'format' => 'U',
+                'dateTimeString' => '-1',
+            ],
+            [
+                'expectedDateTime' => '2017-05-10T12:13:14+05:00',
+                'format' => DateTime::ATOM,
+                'dateTimeString' => '2017-05-10T12:13:14+05:00',
+            ],
         ];
     }
 
@@ -67,8 +80,18 @@ class DateTimeFromStringTest extends TestCase
     public function dateTimeWithTimeZoneToCreateProvider(): array
     {
         return [
-            ['2017-05-10T12:13:14+02:00', 'Y-m-d H:i:s', '2017-05-10 12:13:14', new DateTimeZone('Europe/Prague')],
-            ['2017-05-10T12:13:14+00:00', 'Y-m-d H:i:s', '2017-05-10 12:13:14', new DateTimeZone('UTC')],
+            [
+                'expectedDateTime' => '2017-05-10T12:13:14+02:00',
+                'format' => 'Y-m-d H:i:s',
+                'dateTimeString' => '2017-05-10 12:13:14',
+                'timeZone' => new DateTimeZone('Europe/Prague'),
+            ],
+            [
+                'expectedDateTime' => '2017-05-10T12:13:14+00:00',
+                'format' => 'Y-m-d H:i:s',
+                'dateTimeString' => '2017-05-10 12:13:14',
+                'timeZone' => new DateTimeZone('UTC'),
+            ],
         ];
     }
 
@@ -117,10 +140,34 @@ class DateTimeFromStringTest extends TestCase
     public function invalidDataProvider(): array
     {
         return [
-            ['', 'U'],
-            ['gandalf', 'U'],
-            ['-1', 'U'],
-            ['0000-00-00 00:00:00', 'Y-m-d H:i:s'],
+            'Empty unix timestamp' => [
+                'format' => 'U',
+                'dateTimeString' => '',
+            ],
+            'Non-digit unix timestamp' => [
+                'format' => 'U',
+                'dateTimeString' => 'gandalf',
+            ],
+            'Classic datetime with zeros' => [
+                'format' => 'Y-m-d H:i:s',
+                'dateTimeString' => '0000-00-00 00:00:00',
+            ],
+            'ISO with zeros' => [
+                'format' => DateTime::ATOM,
+                'dateTimeString' => '0000-00-00T00:00:00+00:00',
+            ],
+            'ISO in PHP corrupted format' => [
+                'format' => DateTime::ATOM,
+                'dateTimeString' => '2017-05-10T12:13:14+0200',
+            ],
+            'ISO with invalid day in month' => [
+                'format' => DateTime::ATOM,
+                'dateTimeString' => '2020-11-31T12:13:14+02:00',
+            ],
+            'ISO with invalid month' => [
+                'format' => DateTime::ATOM,
+                'dateTimeString' => '2020-13-05T12:13:14+02:00',
+            ],
         ];
     }
 }

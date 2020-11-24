@@ -45,7 +45,7 @@ final class DateTimeFromString
         string $format,
         string $originalDateTimeString
     ): DateTimeImmutable {
-        if ($dateTime === false) {
+        if ($dateTime === false || $dateTime->format($format) !== $originalDateTimeString) {
             $message = sprintf(
                 'Can\'t convert %s to datetime using format %s.',
                 $originalDateTimeString,
