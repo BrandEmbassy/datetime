@@ -4,10 +4,8 @@ namespace BrandEmbassy\DateTime;
 
 use DateTime;
 use DateTimeZone;
-use InvalidArgumentException;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use function sprintf;
 
 class DateTimeFromStringTest extends TestCase
 {
@@ -31,20 +29,35 @@ class DateTimeFromStringTest extends TestCase
     public function dateTimeToCreateProvider(): array
     {
         return [
-            [
+            'Unix timestamp' => [
                 'expectedDateTime' => '2017-05-31T13:32:40+00:00',
                 'format' => 'U',
                 'dateTimeString' => '1496237560',
             ],
-            [
+            'Negative Unix timestamp' => [
                 'expectedDateTime' => '1969-12-31T23:59:59+00:00',
                 'format' => 'U',
                 'dateTimeString' => '-1',
             ],
-            [
+            'ISO 8601 with TZ designators ±hh:mm' => [
                 'expectedDateTime' => '2017-05-10T12:13:14+05:00',
                 'format' => DateTime::ATOM,
                 'dateTimeString' => '2017-05-10T12:13:14+05:00',
+            ],
+            'ISO 8601 with TZ designator Z' => [
+                'expectedDateTime' => '2017-05-10T12:13:14+00:00',
+                'format' => DateTime::ATOM,
+                'dateTimeString' => '2017-05-10T12:13:14Z',
+            ],
+            'ISO 8601 with TZ designator ±hhmm' => [
+                'expectedDateTime' => '2017-05-10T12:13:14+08:00',
+                'format' => DateTime::ATOM,
+                'dateTimeString' => '2017-05-10T12:13:14+0800',
+            ],
+            'ISO 8601 with TZ designator ±hh' => [
+                'expectedDateTime' => '2017-05-10T12:13:14-03:00',
+                'format' => DateTime::ATOM,
+                'dateTimeString' => '2017-05-10T12:13:14-03',
             ],
         ];
     }
@@ -99,16 +112,13 @@ class DateTimeFromStringTest extends TestCase
     /**
      * @dataProvider invalidDataProvider
      */
-    public function testThrowExceptionWhenCantCreateDateTime(string $format, string $dateTimeString): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            sprintf(
-                'Can\'t convert %s to datetime using format %s.',
-                $dateTimeString,
-                $format
-            )
-        );
+    public function testThrowExceptionWhenCantCreateDateTime(
+        string $expectedExceptionMessage,
+        string $format,
+        string $dateTimeString
+    ): void {
+        $this->expectException(InvalidDateTimeStringException::class);
+        $this->expectExceptionMessage($expectedExceptionMessage);
 
         DateTimeFromString::create($format, $dateTimeString);
     }
@@ -118,17 +128,12 @@ class DateTimeFromStringTest extends TestCase
      * @dataProvider invalidDataProvider
      */
     public function testThrowExceptionWhenCantCreateDateTimeWithTimeZone(
+        string $expectedExceptionMessage,
         string $format,
         string $dateTimeString
     ): void {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            sprintf(
-                'Can\'t convert %s to datetime using format %s.',
-                $dateTimeString,
-                $format
-            )
-        );
+        $this->expectException(InvalidDateTimeStringException::class);
+        $this->expectExceptionMessage($expectedExceptionMessage);
 
         DateTimeFromString::createWithTimezone($format, $dateTimeString, new DateTimeZone('Europe/Prague'));
     }
@@ -141,30 +146,35 @@ class DateTimeFromStringTest extends TestCase
     {
         return [
             'Empty unix timestamp' => [
+                'expectedExceptionMessage' => "Can't convert '' to datetime using format U.",
                 'format' => 'U',
                 'dateTimeString' => '',
             ],
             'Non-digit unix timestamp' => [
+                'expectedExceptionMessage' => "Can't convert 'gandalf' to datetime using format U.",
                 'format' => 'U',
                 'dateTimeString' => 'gandalf',
             ],
             'Classic datetime with zeros' => [
+                'expectedExceptionMessage' =>
+                    "Datetime '0000-00-00 00:00:00' cannot be considered as fully valid string.",
                 'format' => 'Y-m-d H:i:s',
                 'dateTimeString' => '0000-00-00 00:00:00',
             ],
-            'ISO with zeros' => [
+            'ISO 8601 with zeros' => [
+                'expectedExceptionMessage' =>
+                    "Datetime '0000-00-00T00:00:00+00:00' cannot be considered as fully valid string.",
                 'format' => DateTime::ATOM,
                 'dateTimeString' => '0000-00-00T00:00:00+00:00',
             ],
-            'ISO in PHP corrupted format' => [
-                'format' => DateTime::ATOM,
-                'dateTimeString' => '2017-05-10T12:13:14+0200',
-            ],
-            'ISO with invalid day in month' => [
+            'ISO 8601 with invalid day in month' => [
+                'expectedExceptionMessage' =>
+                    "Datetime '2020-11-31T12:13:14+02:00' cannot be considered as fully valid string.",
                 'format' => DateTime::ATOM,
                 'dateTimeString' => '2020-11-31T12:13:14+02:00',
             ],
-            'ISO with invalid month' => [
+            'ISO 8601 with invalid month' => [
+                'expectedExceptionMessage' => "Datetime '2020-13-05T12:13:14+02:00' cannot be considered as fully valid string.",
                 'format' => DateTime::ATOM,
                 'dateTimeString' => '2020-13-05T12:13:14+02:00',
             ],
