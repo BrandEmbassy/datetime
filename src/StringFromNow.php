@@ -22,6 +22,6 @@ final class StringFromNow
     {
         $now = $this->dateTimeImmutableFactory->getNow();
 
-        return DateTimeFormatter::formatInTimezone($now, $dateTimeZone, $format);
+        return DateTimeFormatter::formatInTimezoneAs($now, $dateTimeZone, $format);
     }
 }

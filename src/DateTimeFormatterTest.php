@@ -6,33 +6,45 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
-use PHPStan\Testing\TestCase;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\TestCase;
 
 final class DateTimeFormatterTest extends TestCase
 {
-    private const DATETIME_IN_ATOM = '2017-05-10T12:13:14+02:00';
+    private const DATETIME_WITHOUT_MILLISECONDS = '2017-05-10T12:13:14+02:00';
+    private const DATETIME_WITH_MILLISECONDS = '2017-05-10T12:13:14.000+02:00';
 
 
     /**
      * @dataProvider getDateTimeToFormat
      */
-    public function testFormatAsAtom(DateTimeInterface $dateTime): void
+    public function testFormat(DateTimeInterface $dateTime): void
     {
-        $formattedDateTime = DateTimeFormatter::formatAsAtom($dateTime);
+        $formattedDateTime = DateTimeFormatter::format($dateTime);
 
-        Assert::assertSame(self::DATETIME_IN_ATOM, $formattedDateTime);
+        Assert::assertSame(self::DATETIME_WITHOUT_MILLISECONDS, $formattedDateTime);
     }
 
 
     /**
      * @dataProvider getDateTimeToFormat
      */
-    public function testFormatInTimezone(DateTimeInterface $dateTime): void
+    public function testFormatWithMilliseconds(DateTimeInterface $dateTime): void
+    {
+        $formattedDateTime = DateTimeFormatter::formatWithMilliseconds($dateTime);
+
+        Assert::assertSame(self::DATETIME_WITH_MILLISECONDS, $formattedDateTime);
+    }
+
+
+    /**
+     * @dataProvider getDateTimeToFormat
+     */
+    public function testFormatInTimezoneAs(DateTimeInterface $dateTime): void
     {
         $expectedUtcFormat = '2017-05-10T10:13:14+00:00';
 
-        $formattedDateTime = DateTimeFormatter::formatInTimezone(
+        $formattedDateTime = DateTimeFormatter::formatInTimezoneAs(
             $dateTime,
             new DateTimeZone('UTC'),
             DateTime::ATOM
@@ -45,11 +57,11 @@ final class DateTimeFormatterTest extends TestCase
     /**
      * @dataProvider getDateTimeToFormat
      */
-    public function testFormatInTimezoneAsAtom(DateTimeInterface $dateTime): void
+    public function testFormatInTimezone(DateTimeInterface $dateTime): void
     {
         $expectedUtcFormat = '2017-05-10T10:13:14+00:00';
 
-        $formattedDateTime = DateTimeFormatter::formatInTimezoneAsAtom($dateTime, new DateTimeZone('UTC'));
+        $formattedDateTime = DateTimeFormatter::formatInTimezone($dateTime, new DateTimeZone('UTC'));
 
         Assert::assertSame($expectedUtcFormat, $formattedDateTime);
     }
@@ -61,15 +73,15 @@ final class DateTimeFormatterTest extends TestCase
     public function getDateTimeToFormat(): array
     {
         return [
-            'immutable' => [new DateTimeImmutable(self::DATETIME_IN_ATOM)],
-            'muttable' => [new DateTime(self::DATETIME_IN_ATOM)],
+            'immutable' => [new DateTimeImmutable(self::DATETIME_WITHOUT_MILLISECONDS)],
+            'muttable' => [new DateTime(self::DATETIME_WITHOUT_MILLISECONDS)],
         ];
     }
 
 
     public function testFormatTimestamp(): void
     {
-        $formattedDateTime = DateTimeFormatter::formatTimestamp(1496237560, 'Y-m-d');
+        $formattedDateTime = DateTimeFormatter::formatTimestampAs(1496237560, 'Y-m-d');
 
         Assert::assertSame('2017-05-31', $formattedDateTime);
     }
@@ -77,15 +89,23 @@ final class DateTimeFormatterTest extends TestCase
 
     public function testFormatTimestampAsAtom(): void
     {
-        $formattedDateTime = DateTimeFormatter::formatTimestampAsAtom(1496237560);
+        $formattedDateTime = DateTimeFormatter::formatTimestamp(1496237560);
 
         Assert::assertSame('2017-05-31T13:32:40+00:00', $formattedDateTime);
     }
 
 
-    public function testFormatTimestampInTimezone(): void
+    public function testFormatTimestampWithMillis(): void
     {
-        $formattedDateTime = DateTimeFormatter::formatTimestampInTimezone(
+        $formattedDateTime = DateTimeFormatter::formatTimestampIncludingMilliseconds(1496237560456);
+
+        Assert::assertSame('2017-05-31T13:32:40.456+00:00', $formattedDateTime);
+    }
+
+
+    public function testFormatTimestampInTimezoneAs(): void
+    {
+        $formattedDateTime = DateTimeFormatter::formatTimestampInTimezoneAs(
             1496237560,
             new DateTimeZone('Europe/Prague'),
             DateTime::ATOM
@@ -95,13 +115,24 @@ final class DateTimeFormatterTest extends TestCase
     }
 
 
-    public function testFormatTimestampInTimezoneAsAtom(): void
+    public function testFormatTimestampInTimezone(): void
     {
-        $formattedDateTime = DateTimeFormatter::formatTimestampInTimezoneAsAtom(
+        $formattedDateTime = DateTimeFormatter::formatTimestampInTimezone(
             1496237560,
             new DateTimeZone('Europe/Prague')
         );
 
         Assert::assertSame('2017-05-31T15:32:40+02:00', $formattedDateTime);
+    }
+
+
+    public function testFormatTimestampWithMillisecondsInTimezone(): void
+    {
+        $formattedDateTime = DateTimeFormatter::formatTimestampWithMillisecondsInTimezone(
+            1496237560456,
+            new DateTimeZone('Europe/Prague')
+        );
+
+        Assert::assertSame('2017-05-31T15:32:40.456+02:00', $formattedDateTime);
     }
 }
