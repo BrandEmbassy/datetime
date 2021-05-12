@@ -169,6 +169,14 @@ final class DateTimeFromStringTest extends TestCase
     }
 
 
+    public function testCreateFromGoogleTimestampZuluFormat(): void
+    {
+        $dateTime = DateTimeFromString::createFromGoogleTimestampZuluFormat('2021-05-10T10:57:27.234821Z');
+
+        Assert::assertSame('2021-05-10T10:57:27+00:00', $dateTime->format(DateTime::ATOM));
+    }
+
+
     /**
      * @dataProvider dateTimeWithTimeZoneAndFormatToCreateProvider
      */
