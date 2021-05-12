@@ -169,11 +169,14 @@ final class DateTimeFromStringTest extends TestCase
     }
 
 
-    public function testCreateFromGoogleTimestampZuluFormat(): void
+    /**
+     * @dataProvider createFromGoogleTimestampZuluFormatDataProvider
+     */
+    public function testCreateFromGoogleTimestampZuluFormat(string $expectedDateTime, string $dateTimeString): void
     {
-        $dateTime = DateTimeFromString::createFromGoogleTimestampZuluFormat('2021-05-10T10:57:27.234821Z');
+        $dateTime = DateTimeFromString::createFromGoogleTimestampZuluFormat($dateTimeString);
 
-        Assert::assertSame('2021-05-10T10:57:27+00:00', $dateTime->format(DateTime::ATOM));
+        Assert::assertSame($expectedDateTime, $dateTime->format(DateTime::ATOM));
     }
 
 
@@ -189,6 +192,24 @@ final class DateTimeFromStringTest extends TestCase
         $dateTime = DateTimeFromString::createWithTimezoneFromFormat($format, $dateTimeString, $timeZone);
 
         Assert::assertSame($expectedDateTime, $dateTime->format(DateTime::ATOM));
+    }
+
+
+    /**
+     * @return mixed[]
+     */
+    public function createFromGoogleTimestampZuluFormatDataProvider(): array
+    {
+        return [
+            [
+                'expectedDateTime' => '2021-05-10T10:57:27+00:00',
+                'dateTimeString' => '2021-05-10T10:57:27.234821Z',
+            ],
+            [
+                'expectedDateTime' => '2014-10-02T15:01:23+00:00',
+                'dateTimeString' => '2014-10-02T15:01:23Z',
+            ],
+        ];
     }
 
 
