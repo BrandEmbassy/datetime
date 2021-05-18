@@ -3,7 +3,6 @@
 namespace BrandEmbassy\DateTime\Format;
 
 use DateTime;
-use const PHP_VERSION_ID;
 
 final class Rfc3339ExtendedFormat
 {
@@ -15,8 +14,6 @@ final class Rfc3339ExtendedFormat
 
     public static function getInputFormat(): string
     {
-        return PHP_VERSION_ID >= 70300
-            ? DateTime::RFC3339_EXTENDED
-            : 'Y-m-d\TH:i:s.uP';
+        return 'Y-m-d\TH:i:s.uP';
     }
 }

@@ -10,7 +10,7 @@
         "doctrine/orm": "Needed for DateTimeImmutableAsTimestampDoctrineType."
     },
     "require": {
-        "php": "~7.2",
+        "php": ">=7.2",
         "brandembassy/datetime-factory": "^1.0",
         "nette/utils": "^3.0"
     },
