@@ -136,6 +136,10 @@ final class DateTimeFromStringTest extends TestCase
                 'expectedDateTimeString' => '2017-05-10T12:13:14.222+00:00',
                 'dateTimeString' => '2017-05-10T12:13:14.222Z',
             ],
+            'UTC with many millis' => [
+                'expectedDateTimeString' => '2017-05-10T12:13:14.2223334+00:00',
+                'dateTimeString' => '2017-05-10T12:13:14.2223334Z',
+            ],
             'Zero millis' => [
                 'expectedDateTimeString' => '2017-05-10T12:13:14.000+00:00',
                 'dateTimeString' => '2017-05-10T12:13:14.000+00:00',
