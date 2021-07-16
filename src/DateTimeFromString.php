@@ -8,6 +8,10 @@ use DateTimeImmutable;
 use DateTimeZone;
 use function assert;
 use function is_array;
+use function preg_match;
+use function str_replace;
+use function strlen;
+use function substr;
 
 final class DateTimeFromString
 {
@@ -53,6 +57,21 @@ final class DateTimeFromString
         assert($dateTime instanceof DateTimeImmutable);
 
         return $dateTime;
+    }
+
+
+    public static function createFromGoogleTimestampZuluFormat(string $dateTimeString): DateTimeImmutable
+    {
+        $nanoRegex = '/\d{4}-\d{1,2}-\d{1,2}T\d{1,2}\:\d{1,2}\:\d{1,2}(?:\.(\d{1,}))?/';
+
+        preg_match($nanoRegex, $dateTimeString, $matches);
+        $subSeconds = $matches[1] ?? '0';
+
+        if (strlen($subSeconds) > 6) {
+            $dateTimeString = str_replace('.' . $subSeconds, '.' . substr($subSeconds, 0, 6), $dateTimeString);
+        }
+
+        return new DateTimeImmutable($dateTimeString);
     }
 
 
