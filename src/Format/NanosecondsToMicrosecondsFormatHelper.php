@@ -15,8 +15,12 @@ final class NanosecondsToMicrosecondsFormatHelper
     private const NANOSECONDS_PATTERN = '/\d{7,9}/';
 
 
-    public static function trimNanoseconds(string $dateTimeAsStringWithNanoseconds): string
+    public static function normalizeInputIfNeeded(string $dateTimeAsStringWithNanoseconds): string
     {
+        if (preg_match(self::INPUT_WITH_NANOSECONDS_PATTERN, $dateTimeAsStringWithNanoseconds) === false) {
+            return $dateTimeAsStringWithNanoseconds;
+        }
+
         preg_match(self::NANOSECONDS_PATTERN, $dateTimeAsStringWithNanoseconds, $nanosecondsArray);
         if ($nanosecondsArray === []) {
             return $dateTimeAsStringWithNanoseconds;
@@ -24,9 +28,13 @@ final class NanosecondsToMicrosecondsFormatHelper
 
         $nanoseconds = current($nanosecondsArray);
         $microseconds = substr($nanoseconds, 0, 6);
-        $dateTimeAsString = preg_replace(self::NANOSECONDS_PATTERN, $microseconds, $dateTimeAsStringWithNanoseconds);
-        assert(is_string($dateTimeAsString));
+        $dateTimeAsStringTrimmed = preg_replace(
+            self::NANOSECONDS_PATTERN,
+            $microseconds,
+            $dateTimeAsStringWithNanoseconds
+        );
+        assert(is_string($dateTimeAsStringTrimmed));
 
-        return $dateTimeAsString;
+        return $dateTimeAsStringTrimmed;
     }
 }

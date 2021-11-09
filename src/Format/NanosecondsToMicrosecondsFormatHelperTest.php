@@ -10,9 +10,9 @@ final class NanosecondsToMicrosecondsFormatHelperTest extends TestCase
     /**
      * @dataProvider dateTimeAsStringProvider
      */
-    public function testTrimNanoseconds(string $expectedString, string $inputString): void
+    public function testTrimNanosecondsIfNeeded(string $expectedString, string $inputString): void
     {
-        $trimmedInput = NanosecondsToMicrosecondsFormatHelper::trimNanoseconds($inputString);
+        $trimmedInput = NanosecondsToMicrosecondsFormatHelper::normalizeInputIfNeeded($inputString);
 
         Assert::assertSame($expectedString, $trimmedInput);
     }
