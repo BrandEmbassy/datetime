@@ -2,7 +2,12 @@
 
 namespace BrandEmbassy\DateTime\Format;
 
+use function assert;
+use function current;
 use function is_string;
+use function preg_match;
+use function preg_replace;
+use function substr;
 
 final class NanosecondsToMicrosecondsFormatHelper
 {
