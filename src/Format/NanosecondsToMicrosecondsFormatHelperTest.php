@@ -18,6 +18,9 @@ final class NanosecondsToMicrosecondsFormatHelperTest extends TestCase
     }
 
 
+    /**
+     * @return string[][]
+     */
     public function dateTimeAsStringProvider(): array
     {
         return [

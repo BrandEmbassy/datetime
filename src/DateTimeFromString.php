@@ -36,9 +36,9 @@ final class DateTimeFromString
     {
         $format = Rfc3339ExtendedFormat::getInputFormat();
         if (preg_match(
-            NanosecondsToMicrosecondsFormatHelper::INPUT_WITH_NANOSECONDS_PATTERN,
-            $dateTimeStringInRfc3339ExtendedString
-        )) {
+                NanosecondsToMicrosecondsFormatHelper::INPUT_WITH_NANOSECONDS_PATTERN,
+                $dateTimeStringInRfc3339ExtendedString
+            ) !== false) {
             $dateTimeStringInRfc3339ExtendedString = NanosecondsToMicrosecondsFormatHelper::trimNanoseconds(
                 $dateTimeStringInRfc3339ExtendedString
             );

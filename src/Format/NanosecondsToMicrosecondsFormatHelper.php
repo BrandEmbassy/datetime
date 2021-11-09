@@ -2,6 +2,8 @@
 
 namespace BrandEmbassy\DateTime\Format;
 
+use function is_string;
+
 final class NanosecondsToMicrosecondsFormatHelper
 {
     public const INPUT_WITH_NANOSECONDS_PATTERN = '/^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d{7,9}(Z|(\+|\-)[0,1]\d:00)$/';
@@ -15,9 +17,21 @@ final class NanosecondsToMicrosecondsFormatHelper
             return $dateTimeAsStringWithNanoseconds;
         }
 
-        $nanoseconds = current($nanosecondsArray);
-        $microseconds = substr($nanoseconds, 0, 6);
+        $microseconds = self::getMicrosecondsFromNanosecondsArray($nanosecondsArray);
+        $dateTimeAsString = preg_replace(self::NANOSECONDS_PATTERN, $microseconds, $dateTimeAsStringWithNanoseconds);
+        assert(is_string($dateTimeAsString));
 
-        return preg_replace(self::NANOSECONDS_PATTERN, $microseconds, $dateTimeAsStringWithNanoseconds);
+        return $dateTimeAsString;
+    }
+
+
+    /**
+     * @param string[] $nanosecondsArray
+     */
+    private static function getMicrosecondsFromNanosecondsArray(array $nanosecondsArray): string
+    {
+        $nanoseconds = current($nanosecondsArray);
+
+        return substr($nanoseconds, 0, 6);
     }
 }
