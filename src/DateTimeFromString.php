@@ -9,6 +9,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use function assert;
 use function is_array;
+use function preg_match;
 
 final class DateTimeFromString
 {
@@ -39,9 +40,8 @@ final class DateTimeFromString
                 NanosecondsToMicrosecondsFormatHelper::INPUT_WITH_NANOSECONDS_PATTERN,
                 $dateTimeStringInRfc3339ExtendedString
             ) !== false) {
-            $dateTimeStringInRfc3339ExtendedString = NanosecondsToMicrosecondsFormatHelper::trimNanoseconds(
-                $dateTimeStringInRfc3339ExtendedString
-            );
+            $dateTimeStringInRfc3339ExtendedString =
+                NanosecondsToMicrosecondsFormatHelper::trimNanoseconds($dateTimeStringInRfc3339ExtendedString);
         }
 
         return self::createFromFormat($format, $dateTimeStringInRfc3339ExtendedString);

@@ -11,12 +11,12 @@ final class InvalidDateTimeStringException extends InvalidArgumentException
     /**
      * @var string[]
      */
-    private $errors;
+    private array $errors;
 
     /**
      * @var string[]
      */
-    private $warnings;
+    private array $warnings;
 
 
     public static function byNoDatetimeString(
