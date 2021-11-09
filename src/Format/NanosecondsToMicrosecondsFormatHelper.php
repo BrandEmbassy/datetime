@@ -17,21 +17,11 @@ final class NanosecondsToMicrosecondsFormatHelper
             return $dateTimeAsStringWithNanoseconds;
         }
 
-        $microseconds = self::getMicrosecondsFromNanosecondsArray($nanosecondsArray);
+        $nanoseconds = current($nanosecondsArray);
+        $microseconds = substr($nanoseconds, 0, 6);
         $dateTimeAsString = preg_replace(self::NANOSECONDS_PATTERN, $microseconds, $dateTimeAsStringWithNanoseconds);
         assert(is_string($dateTimeAsString));
 
         return $dateTimeAsString;
-    }
-
-
-    /**
-     * @param string[] $nanosecondsArray
-     */
-    private static function getMicrosecondsFromNanosecondsArray(array $nanosecondsArray): string
-    {
-        $nanoseconds = current($nanosecondsArray);
-
-        return substr($nanoseconds, 0, 6);
     }
 }
