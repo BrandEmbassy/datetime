@@ -9,7 +9,7 @@ use function preg_match;
 final class NanosecondsToMicrosecondsFormatHelper
 {
     private const INPUT_WITH_NANOSECONDS_PATTERN = '/^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d{7,9}(Z|(\+|\-)[0,1]\d:00)$/';
-    private const MICROSECONDS_AND_TIMEZONE_PATTERN = '/^(^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d{6})\d{1,3}(Z|(?:\+|\-)[0,1]\d:00)$/';
+    private const MICROSECONDS_AND_TIMEZONE_PATTERN = '/^(^\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d{6})\d*(Z|(?:\+|\-)[0,1]\d:00)$/';
 
 
     public static function normalizeInputIfNeeded(string $dateTimeAsStringWithNanoseconds): string
