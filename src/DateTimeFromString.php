@@ -2,6 +2,7 @@
 
 namespace BrandEmbassy\DateTime;
 
+use BrandEmbassy\DateTime\Format\NanosecondsToMicrosecondsFormatHelper;
 use BrandEmbassy\DateTime\Format\Rfc3339ExtendedFormat;
 use DateTime;
 use DateTimeImmutable;
@@ -34,6 +35,9 @@ final class DateTimeFromString
     public static function createWithMilliseconds(string $dateTimeStringInRfc3339ExtendedString): DateTimeImmutable
     {
         $format = Rfc3339ExtendedFormat::getInputFormat();
+        $dateTimeStringInRfc3339ExtendedString = NanosecondsToMicrosecondsFormatHelper::normalizeInputIfNeeded(
+            $dateTimeStringInRfc3339ExtendedString
+        );
 
         return self::createFromFormat($format, $dateTimeStringInRfc3339ExtendedString);
     }

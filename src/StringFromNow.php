@@ -6,10 +6,7 @@ use DateTimeZone;
 
 final class StringFromNow
 {
-    /**
-     * @var DateTimeImmutableFactory
-     */
-    private $dateTimeImmutableFactory;
+    private DateTimeImmutableFactory $dateTimeImmutableFactory;
 
 
     public function __construct(DateTimeImmutableFactory $dateTimeImmutableFactory)

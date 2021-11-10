@@ -144,6 +144,14 @@ final class DateTimeFromStringTest extends TestCase
                 'expectedDateTimeString' => '2017-05-10T12:13:14.000+00:00',
                 'dateTimeString' => '2017-05-10T12:13:14.000+00:00',
             ],
+            'One nanosecond place - truncated' => [
+                'expectedDateTimeString' => '2021-10-26T15:11:10.114+00:00',
+                'dateTimeString' => '2021-10-26T15:11:10.1144960Z',
+            ],
+            'Three nanosecond place - truncated' => [
+                'expectedDateTimeString' => '2021-10-26T15:11:10.114+00:00',
+                'dateTimeString' => '2021-10-26T15:11:10.114496987Z',
+            ],
         ];
     }
 

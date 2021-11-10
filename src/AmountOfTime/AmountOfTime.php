@@ -9,10 +9,7 @@ final class AmountOfTime
 {
     private const SECOND_IN_MILLISECOND = 1000;
 
-    /**
-     * @var int
-     */
-    private $milliseconds;
+    private int $milliseconds;
 
 
     /**
