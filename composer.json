@@ -11,7 +11,7 @@
     },
     "require": {
         "php": ">=7.4",
-        "brandembassy/datetime-factory": "dev-php-8-0 as 1.2.0",
+        "brandembassy/datetime-factory": "^1.0",
         "nette/utils": "^3.0"
     },
     "require-dev": {
