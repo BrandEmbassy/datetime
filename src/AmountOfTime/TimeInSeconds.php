@@ -5,7 +5,10 @@ namespace BrandEmbassy\DateTime\AmountOfTime;
 use Nette\StaticClass;
 use Nette\Utils\DateTime;
 
-final class TimeInSeconds
+/**
+ * @final
+ */
+class TimeInSeconds
 {
     use StaticClass;
 

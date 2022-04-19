@@ -5,7 +5,10 @@ namespace BrandEmbassy\DateTime\Format;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
-final class NanosecondsToMicrosecondsFormatHelperTest extends TestCase
+/**
+ * @final
+ */
+class NanosecondsToMicrosecondsFormatHelperTest extends TestCase
 {
     /**
      * @dataProvider dateTimeAsStringProvider

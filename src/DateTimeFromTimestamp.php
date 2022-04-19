@@ -6,7 +6,10 @@ use DateTimeImmutable;
 use InvalidArgumentException;
 use function sprintf;
 
-final class DateTimeFromTimestamp
+/**
+ * @final
+ */
+class DateTimeFromTimestamp
 {
     /**
      * @throws InvalidArgumentException

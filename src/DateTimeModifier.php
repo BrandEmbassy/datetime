@@ -6,7 +6,10 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Nette\StaticClass;
 
-final class DateTimeModifier
+/**
+ * @final
+ */
+class DateTimeModifier
 {
     use StaticClass;
 

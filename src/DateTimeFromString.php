@@ -10,7 +10,10 @@ use DateTimeZone;
 use function assert;
 use function is_array;
 
-final class DateTimeFromString
+/**
+ * @final
+ */
+class DateTimeFromString
 {
     /**
      * @throws InvalidDateTimeStringException
@@ -36,7 +39,7 @@ final class DateTimeFromString
     {
         $format = Rfc3339ExtendedFormat::getInputFormat();
         $dateTimeStringInRfc3339ExtendedString = NanosecondsToMicrosecondsFormatHelper::normalizeInputIfNeeded(
-            $dateTimeStringInRfc3339ExtendedString
+            $dateTimeStringInRfc3339ExtendedString,
         );
 
         return self::createFromFormat($format, $dateTimeStringInRfc3339ExtendedString);
@@ -81,7 +84,7 @@ final class DateTimeFromString
             throw InvalidDateTimeStringException::byValidationErrors(
                 $originalDateTimeString,
                 $lastErrors['errors'],
-                $lastErrors['warnings']
+                $lastErrors['warnings'],
             );
         }
     }

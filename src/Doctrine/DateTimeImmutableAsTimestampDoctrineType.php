@@ -9,7 +9,10 @@ use Doctrine\DBAL\Types\Type;
 use InvalidArgumentException;
 use function is_float;
 
-final class DateTimeImmutableAsTimestampDoctrineType extends Type
+/**
+ * @final
+ */
+class DateTimeImmutableAsTimestampDoctrineType extends Type
 {
     public const NAME = 'datetime_immutable_as_timestamp';
 

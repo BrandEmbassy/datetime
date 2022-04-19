@@ -5,7 +5,10 @@ namespace BrandEmbassy\DateTime\AmountOfTime;
 use InvalidArgumentException;
 use function floor;
 
-final class AmountOfTime
+/**
+ * @final
+ */
+class AmountOfTime
 {
     private const SECOND_IN_MILLISECOND = 1000;
 

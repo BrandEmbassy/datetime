@@ -4,7 +4,10 @@ namespace BrandEmbassy\DateTime\Format;
 
 use DateTime;
 
-final class Rfc3339ExtendedFormat
+/**
+ * @final
+ */
+class Rfc3339ExtendedFormat
 {
     public static function getOutputFormat(): string
     {
