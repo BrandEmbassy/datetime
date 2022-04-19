@@ -6,7 +6,10 @@ use InvalidArgumentException;
 use function array_values;
 use function sprintf;
 
-final class InvalidDateTimeStringException extends InvalidArgumentException
+/**
+ * @final
+ */
+class InvalidDateTimeStringException extends InvalidArgumentException
 {
     /**
      * @var string[]
@@ -26,7 +29,7 @@ final class InvalidDateTimeStringException extends InvalidArgumentException
         $message = sprintf(
             "Can't convert '%s' to datetime using format %s.",
             $dateTimeStringInNotRecognizedFormat,
-            $requiredFormat
+            $requiredFormat,
         );
 
         return new self($message);

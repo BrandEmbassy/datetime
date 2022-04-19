@@ -9,7 +9,10 @@ use DateTimeZone;
 use function assert;
 use function method_exists;
 
-final class DateTimeFormatter
+/**
+ * @final
+ */
+class DateTimeFormatter
 {
     public static function formatAs(DateTimeInterface $dateTime, string $format): string
     {

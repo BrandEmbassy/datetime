@@ -4,7 +4,10 @@ namespace BrandEmbassy\DateTime;
 
 use DateTimeZone;
 
-final class StringFromNow
+/**
+ * @final
+ */
+class StringFromNow
 {
     private DateTimeImmutableFactory $dateTimeImmutableFactory;
 

@@ -9,7 +9,10 @@ use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use function sprintf;
 
-final class DateTimeFromStringTest extends TestCase
+/**
+ * @final
+ */
+class DateTimeFromStringTest extends TestCase
 {
     /**
      * @dataProvider dateTimeInFormatProvider
@@ -160,7 +163,7 @@ final class DateTimeFromStringTest extends TestCase
     {
         $this->expectException(InvalidDateTimeStringException::class);
         $this->expectExceptionMessage(
-            "Can't convert '2020-12-05T02:50:16.123+03:00' to datetime using format Y-m-d\TH:i:sP."
+            "Can't convert '2020-12-05T02:50:16.123+03:00' to datetime using format Y-m-d\TH:i:sP.",
         );
 
         DateTimeFromString::create('2020-12-05T02:50:16.123+03:00');
@@ -173,8 +176,8 @@ final class DateTimeFromStringTest extends TestCase
         $this->expectExceptionMessage(
             sprintf(
                 "Can't convert '2020-12-05T02:50:16+03:00' to datetime using format %s.",
-                Rfc3339ExtendedFormat::getInputFormat()
-            )
+                Rfc3339ExtendedFormat::getInputFormat(),
+            ),
         );
 
         DateTimeFromString::createWithMilliseconds('2020-12-05T02:50:16+03:00');

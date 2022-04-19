@@ -9,7 +9,10 @@ use DateTimeZone;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
-final class DateTimeFormatterTest extends TestCase
+/**
+ * @final
+ */
+class DateTimeFormatterTest extends TestCase
 {
     private const DATETIME_WITHOUT_MILLISECONDS = '2017-05-10T12:13:14+02:00';
     private const DATETIME_WITH_MILLISECONDS = '2017-05-10T12:13:14.000+02:00';
@@ -47,7 +50,7 @@ final class DateTimeFormatterTest extends TestCase
         $formattedDateTime = DateTimeFormatter::formatInTimezoneAs(
             $dateTime,
             new DateTimeZone('UTC'),
-            DateTime::ATOM
+            DateTime::ATOM,
         );
 
         Assert::assertSame($expectedUtcFormat, $formattedDateTime);
@@ -108,7 +111,7 @@ final class DateTimeFormatterTest extends TestCase
         $formattedDateTime = DateTimeFormatter::formatTimestampInTimezoneAs(
             1496237560,
             new DateTimeZone('Europe/Prague'),
-            DateTime::ATOM
+            DateTime::ATOM,
         );
 
         Assert::assertSame('2017-05-31T15:32:40+02:00', $formattedDateTime);
@@ -119,7 +122,7 @@ final class DateTimeFormatterTest extends TestCase
     {
         $formattedDateTime = DateTimeFormatter::formatTimestampInTimezone(
             1496237560,
-            new DateTimeZone('Europe/Prague')
+            new DateTimeZone('Europe/Prague'),
         );
 
         Assert::assertSame('2017-05-31T15:32:40+02:00', $formattedDateTime);
@@ -130,7 +133,7 @@ final class DateTimeFormatterTest extends TestCase
     {
         $formattedDateTime = DateTimeFormatter::formatTimestampWithMillisecondsInTimezone(
             1496237560456,
-            new DateTimeZone('Europe/Prague')
+            new DateTimeZone('Europe/Prague'),
         );
 
         Assert::assertSame('2017-05-31T15:32:40.456+02:00', $formattedDateTime);

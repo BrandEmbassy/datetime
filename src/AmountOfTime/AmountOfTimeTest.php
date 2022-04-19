@@ -5,7 +5,10 @@ namespace BrandEmbassy\DateTime\AmountOfTime;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
-final class AmountOfTimeTest extends TestCase
+/**
+ * @final
+ */
+class AmountOfTimeTest extends TestCase
 {
     /**
      * @dataProvider millisecondsProvider
