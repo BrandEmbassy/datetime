@@ -51,6 +51,16 @@ class DateTimeRegularExpressionsTest extends TestCase
                 'pattern' => DateTimeRegularExpressions::RFC3339,
                 'dateTime' => '2000-12-31T23:59:59.123Z',
             ],
+            'RFC3339 | Invalid characters before DateTime' => [
+                'expectedMatch' => false,
+                'pattern' => DateTimeRegularExpressions::RFC3339,
+                'dateTime' => 'abc2000-12-31T23:59:59Z',
+            ],
+            'RFC3339 | Invalid characters after DateTime' => [
+                'expectedMatch' => false,
+                'pattern' => DateTimeRegularExpressions::RFC3339,
+                'dateTime' => '2000-12-31T23:59:59Zabc',
+            ],
             'RFC3339 | Invalid year' => [
                 'expectedMatch' => false,
                 'pattern' => DateTimeRegularExpressions::RFC3339,
