@@ -2,9 +2,9 @@
 
 namespace BrandEmbassy\DateTime;
 
+use Nette\Utils\Strings;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use function preg_match;
 
 /**
  * @final
@@ -19,7 +19,7 @@ class DateTimeRegularExpressionsTest extends TestCase
         string $pattern,
         string $dateTime
     ): void {
-        $doesMatch = (bool)preg_match($pattern, $dateTime);
+        $doesMatch = Strings::match($dateTime, $pattern) !== null;
 
         Assert::assertSame($expectedMatch, $doesMatch);
     }
