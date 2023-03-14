@@ -112,4 +112,13 @@ class DateTimeFormatter
 
         return self::formatInTimezoneWithMilliseconds($dateTimeImmutable, $dateTimeZone);
     }
+
+
+    public static function convertToMilliseconds(DateTimeInterface $datetime): int
+    {
+        $timestamp = $datetime->getTimestamp();
+        $milliseconds = (int)$datetime->format('v');
+
+        return ($timestamp * 1000) + $milliseconds;
+    }
 }
