@@ -138,4 +138,14 @@ class DateTimeFormatterTest extends TestCase
 
         Assert::assertSame('2017-05-31T15:32:40.456+02:00', $formattedDateTime);
     }
+
+
+    public function testConvertToMilliseconds(): void
+    {
+        $timestampInMilliseconds = DateTimeFormatter::convertToMilliseconds(
+            DateTimeFromString::createWithMilliseconds('2020-04-13T22:38:12.123+00:00'),
+        );
+
+        Assert::assertSame(1586817492123, $timestampInMilliseconds);
+    }
 }
