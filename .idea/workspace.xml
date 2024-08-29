@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="46854252-8ffe-4557-ba6c-7c1f1fd79b7d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/sonar-project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/sonar-project.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +122,7 @@
       <option name="presentableId" value="Default" />
       <updated>1724822012033</updated>
       <workItem from="1724822014248" duration="2808000" />
-      <workItem from="1724907410248" duration="2823000" />
+      <workItem from="1724907410248" duration="4058000" />
     </task>
     <servers />
   </component>
