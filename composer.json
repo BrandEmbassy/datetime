@@ -10,14 +10,15 @@
         "doctrine/orm": "Needed for DateTimeImmutableAsTimestampDoctrineType."
     },
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "brandembassy/datetime-factory": "^1.0",
         "nette/utils": "^3.0"
     },
     "require-dev": {
         "brandembassy/coding-standard": "^8.1",
         "doctrine/orm": "^2.6",
-        "phpunit/phpunit": "^8",
+        "phpunit/phpcov": "^8.2.1",
+        "phpunit/phpunit": "^9.3",
         "roave/security-advisories": "dev-master"
     },
     "scripts": {
@@ -26,7 +27,11 @@
         "phpstan": "./vendor/bin/phpstan analyse -c phpstan.neon src",
         "phpunit": "./vendor/bin/phpunit src --no-coverage",
         "phpunit-cc": "./vendor/bin/phpunit src",
-        "test": "./vendor/bin/phpunit src"
+        "test": "./vendor/bin/phpunit src",
+        "post-autoload-dump": [
+            "XDEBUG_MODE=coverage ./vendor/bin/phpunit src -c phpunit.xml --coverage-php=temp/coverage/unit-tests.cov --log-junit=test-report.xml",
+            "php -dmemory_limit=8192M vendor/bin/phpcov merge --clover coverage.xml temp/coverage"
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
